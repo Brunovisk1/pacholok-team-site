@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   PACHOLOK TEAM — DESIGN TOKENS
+   ============================================================ */
+
+@layer base {
+  :root {
+    --gold: #C9A84C;
+    --gold-dark: #8B7536;
+    --bg-primary: #0A0A0A;
+    --bg-secondary: #080808;
+    --bg-card: #0F0F0F;
+    --text-primary: #FFFFFF;
+    --text-muted: rgba(255, 255, 255, 0.4);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-[#0A0A0A] text-white;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  }
+
+  /* Focus visible ring reset */
+  :focus-visible {
+    outline: 2px solid #C9A84C;
+    outline-offset: 2px;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0A0A0A;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(201, 168, 76, 0.15);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(201, 168, 76, 0.3);
+  }
+
+  /* Selection */
+  ::selection {
+    background: rgba(201, 168, 76, 0.2);
+    color: #fff;
+  }
+}
+
+@layer components {
+  /* Section label pattern */
+  .section-label {
+    @apply text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase;
+  }
+
+  /* Divider line */
+  .gold-line {
+    @apply h-px bg-gradient-to-r from-transparent via-gold-500/30 to-transparent;
+  }
+
+  /* Gold gradient text */
+  .text-gold-gradient {
+    @apply text-transparent bg-clip-text bg-gold-gradient;
+  }
+
+  /* Container */
+  .container {
+    @apply w-full mx-auto px-4;
+    max-width: 80rem;
+  }
+}
+
+@layer utilities {
+  /* Accordion animations */
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
+
+  .animate-accordion-down {
+    animation: accordion-down 0.2s ease-out;
+  }
+  .animate-accordion-up {
+    animation: accordion-up 0.2s ease-out;
+  }
+
+  /* Scrollbar thin utility */
+  .scrollbar-thin::-webkit-scrollbar {
+    height: 4px;
+  }
+  .scrollbar-track-transparent::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thumb-white\/10::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}

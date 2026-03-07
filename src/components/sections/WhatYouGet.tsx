@@ -55,10 +55,10 @@ export function WhatYouGet() {
             return (
               <div
                 key={index}
-                className="group bg-[#0F0F0F] border border-white/5 p-6 hover:border-gold-500/20 hover:bg-[#111] transition-all"
+                className="group bg-[#0F0F0F] border border-white/5 [border-top:2px_solid_rgba(201,168,76,0.08)] p-6 hover:[border-top:2px_solid_rgba(201,168,76,0.35)] hover:border-gold-500/20 hover:bg-[#111] transition-all"
               >
                 <div className="mb-4">
-                  <div className="w-10 h-10 flex items-center justify-center bg-gold-500/10 border border-gold-500/20 mb-4 group-hover:bg-gold-500/15 transition-colors">
+                  <div className="w-10 h-10 flex items-center justify-center bg-gold-500/10 border border-gold-500/20 mb-4 group-hover:bg-gold-500/20 group-hover:border-gold-500/40 transition-colors">
                     <Icon size={18} className="text-gold-500" aria-hidden="true" />
                   </div>
                   <h3 className="text-white font-semibold text-sm mb-2">
@@ -90,17 +90,17 @@ export function WhatYouGet() {
             </div>
 
             <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10">
-              {appScreenshots.slice(0, 5).map((src, i) => (
+              {appScreenshots.map((src, i) => (
                 <div
                   key={i}
                   className="snap-start shrink-0 w-[200px] sm:w-[220px]"
                 >
-                  <div className="relative aspect-[9/19] border border-white/10 overflow-hidden bg-[#111]">
+                  <div className="relative aspect-[4/5] border border-white/10 overflow-hidden bg-[#111]">
                     <Image
                       src={src}
                       alt={`App Pacholok Team — tela ${i + 1}`}
                       fill
-                      className="object-cover object-top"
+                      className="object-cover object-center"
                       sizes="220px"
                       loading="lazy"
                     />

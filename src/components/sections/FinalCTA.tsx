@@ -10,7 +10,7 @@ export function FinalCTA() {
       aria-label="CTA final — Falar com a equipe"
     >
       {/* Background glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(201,168,76,0.06)_0%,_transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,_rgba(201,168,76,0.09)_0%,_transparent_70%)]" />
 
       <div className="relative z-10 container mx-auto px-4 max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
@@ -24,10 +24,10 @@ export function FinalCTA() {
               </span>
             </div>
 
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white leading-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white leading-[0.95] tracking-tighter">
               A ordem será
               <br />
-              <span className="text-transparent bg-clip-text bg-gold-gradient">
+              <span className="text-gold-gradient">
                 restabelecida.
               </span>
             </h2>

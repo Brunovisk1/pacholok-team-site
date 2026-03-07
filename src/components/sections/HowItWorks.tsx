@@ -35,9 +35,9 @@ export function HowItWorks() {
                 {/* Step number circle */}
                 <div className="relative shrink-0 flex flex-col items-center">
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center border text-xs font-bold tracking-wider transition-all z-10 ${
+                    className={`w-12 h-12 rounded-full flex items-center justify-center border text-sm font-bold tracking-wider transition-all z-10 ${
                       index === 0
-                        ? "border-gold-500 bg-gold-500/10 text-gold-500"
+                        ? "border-gold-500 bg-gold-500/15 text-gold-500"
                         : "border-white/20 bg-[#0A0A0A] text-white/40 group-hover:border-gold-500/50 group-hover:text-gold-500/60"
                     }`}
                     aria-hidden="true"
@@ -48,7 +48,7 @@ export function HowItWorks() {
 
                 {/* Content */}
                 <div className="pb-2 min-w-0 flex-1">
-                  <div className="bg-[#0F0F0F] border border-white/5 p-6 hover:border-white/10 transition-colors">
+                  <div className="bg-[#0F0F0F] border border-white/5 border-l-2 border-l-gold-500/20 p-6 hover:border-l-gold-500/50 transition-colors">
                     <h3 className="text-white font-semibold text-base mb-2">
                       {step.title}
                     </h3>

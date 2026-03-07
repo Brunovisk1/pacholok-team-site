@@ -24,12 +24,12 @@ export function Hero() {
       aria-label="Hero — Pacholok Team"
     >
       {/* Background texture / overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(201,168,76,0.07)_0%,_transparent_60%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_rgba(201,168,76,0.04)_0%,_transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_80%_10%,_rgba(201,168,76,0.13)_0%,_transparent_65%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_10%_90%,_rgba(201,168,76,0.07)_0%,_transparent_65%)]" />
 
       {/* Noise texture */}
       <div
-        className="absolute inset-0 opacity-[0.02]"
+        className="absolute inset-0 opacity-[0.03]"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
         }}
@@ -48,18 +48,19 @@ export function Hero() {
               <span className="text-gold-500 text-xs font-semibold tracking-[0.3em] uppercase">
                 Método Pacholok
               </span>
+              <div className="w-1.5 h-1.5 rounded-full bg-gold-500 animate-pulse-gold" />
             </div>
 
             {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-white leading-[1.05] tracking-tight">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-display font-bold text-white leading-[0.93] tracking-tighter">
               O melhor shape
               <br />
               da sua vida.
               <br />
-              <span className="text-transparent bg-clip-text bg-gold-gradient">
+              <span className="text-gold-gradient">
                 Forjado.
               </span>{" "}
-              <span className="text-white/90">Construído.</span>
+              <span className="text-white/85">Construído.</span>
             </h1>
 
             {/* Subheadline */}

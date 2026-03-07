@@ -287,6 +287,11 @@ export const siteConfig = {
     "/assets/app/screenshot-3.png",
     "/assets/app/screenshot-4.png",
     "/assets/app/screenshot-5.png",
+    "/assets/app/screenshot-6.png",
+    "/assets/app/screenshot-7.png",
+    "/assets/app/screenshot-8.png",
+    "/assets/app/screenshot-9.png",
+    "/assets/app/screenshot-10.png",
   ],
 
   // ----------------------------------------------------------

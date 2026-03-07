@@ -86,7 +86,7 @@ export function ForWho() {
           <p className="text-white/20 text-xs tracking-widest uppercase mb-4">
             O manifesto
           </p>
-          <blockquote className="text-white/60 text-lg md:text-xl leading-relaxed italic font-display">
+          <blockquote className="text-white/70 text-xl md:text-2xl leading-relaxed italic font-display">
             &ldquo;Não vendemos a ilusão do caminho mais rápido. O espelho não
             aceita desculpas. Onde colocamos o nosso nome, colocamos a nossa
             honra.&rdquo;

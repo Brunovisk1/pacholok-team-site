@@ -65,7 +65,7 @@ export function Plans() {
               className={cn(
                 "relative flex flex-col border transition-all duration-300 group",
                 plan.highlight
-                  ? "border-gold-500/60 bg-[#0F0F0F]"
+                  ? "border-gold-500/60 bg-[#0F0F0F] gold-glow"
                   : hoveredPlan === plan.id
                   ? "border-white/20 bg-[#0F0F0F]"
                   : "border-white/5 bg-[#0D0D0D]"
@@ -127,8 +127,8 @@ export function Plans() {
                     <span className="text-white/30 text-sm">por</span>
                     <span
                       className={cn(
-                        "text-3xl font-bold tracking-tight",
-                        plan.highlight ? "text-gold-500" : "text-white"
+                        "font-bold tracking-tight",
+                        plan.highlight ? "text-4xl text-gold-500" : "text-3xl text-white"
                       )}
                     >
                       {plan.priceLabel}

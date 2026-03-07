@@ -29,12 +29,12 @@ export function Testimonials() {
           {testimonials.map((t, i) => (
             <figure
               key={i}
-              className="bg-[#0F0F0F] border border-white/5 p-7 flex flex-col relative"
+              className="bg-[#0F0F0F] border border-white/5 border-l-2 border-l-gold-500/30 p-7 flex flex-col relative hover:border-l-gold-500/50 transition-colors"
             >
               {/* Quote mark */}
               <Quote
-                size={24}
-                className="text-gold-500/20 mb-4 shrink-0"
+                size={32}
+                className="text-gold-500/10 mb-5 shrink-0"
                 aria-hidden="true"
               />
 
@@ -47,10 +47,10 @@ export function Testimonials() {
               <figcaption className="mt-6 flex items-center gap-3">
                 {/* Avatar placeholder */}
                 <div
-                  className="w-9 h-9 rounded-full bg-gold-500/10 border border-gold-500/20 flex items-center justify-center shrink-0"
+                  className="w-10 h-10 rounded-full bg-gold-500/10 border border-gold-500/30 flex items-center justify-center shrink-0"
                   aria-hidden="true"
                 >
-                  <span className="text-gold-500/60 text-xs font-bold uppercase">
+                  <span className="text-gold-500/80 text-sm font-bold uppercase">
                     {t.name.charAt(0)}
                   </span>
                 </div>

@@ -74,13 +74,30 @@
 
   /* Gold gradient text */
   .text-gold-gradient {
-    @apply text-transparent bg-clip-text bg-gold-gradient;
+    @apply text-transparent bg-clip-text;
+    background-image: linear-gradient(135deg, #E8C870 0%, #C9A84C 55%, #8B7536 100%);
+  }
+
+  /* Gold glow shadow */
+  .gold-glow {
+    box-shadow: 0 0 60px rgba(201, 168, 76, 0.08), 0 0 120px rgba(201, 168, 76, 0.04);
   }
 
   /* Container */
   .container {
     @apply w-full mx-auto px-4;
     max-width: 80rem;
+  }
+}
+
+@layer utilities {
+  @keyframes pulse-gold {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  .animate-pulse-gold {
+    animation: pulse-gold 2.4s ease-in-out infinite;
   }
 }
 

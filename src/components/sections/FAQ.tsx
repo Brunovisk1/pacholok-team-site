@@ -14,12 +14,12 @@ export function FAQ() {
   return (
     <section
       id="faq"
-      className="py-24 bg-[#080808]"
+      className="py-14 md:py-24 bg-[#080808]"
       aria-label="Perguntas frequentes"
     >
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 md:mb-16">
           <p className="text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase mb-4">
             Sem mistério
           </p>

@@ -59,12 +59,12 @@ export function TeamMethod() {
     <section
       ref={sectionRef}
       id="equipe"
-      className="py-24 bg-[#080808]"
+      className="py-14 md:py-24 bg-[#080808] overflow-x-hidden"
       aria-label="Equipe e método Pacholok"
     >
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 md:mb-16">
           <p className="anim-header text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase mb-4 opacity-0">
             O método em campo
           </p>
@@ -78,7 +78,7 @@ export function TeamMethod() {
         </div>
 
         {/* Founder */}
-        <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
+        <div className="grid lg:grid-cols-2 gap-12 items-center mb-12 md:mb-20">
           <div className="anim-founder-copy order-2 lg:order-1 opacity-0">
             <p className="text-gold-500/60 text-xs font-semibold tracking-[0.2em] uppercase mb-4">
               Fundador

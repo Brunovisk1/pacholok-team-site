@@ -55,7 +55,7 @@ export function FinalCTA() {
   return (
     <section
       ref={sectionRef}
-      className="py-24 bg-[#0A0A0A] relative overflow-hidden"
+      className="py-14 md:py-24 bg-[#0A0A0A] relative overflow-hidden"
       aria-label="CTA final — Falar com a equipe"
     >
       {/* Background glow */}

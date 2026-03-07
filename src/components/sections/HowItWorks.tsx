@@ -48,12 +48,12 @@ export function HowItWorks() {
     <section
       ref={sectionRef}
       id="como-funciona"
-      className="py-24 bg-[#0A0A0A]"
+      className="py-14 md:py-24 bg-[#0A0A0A]"
       aria-label="Como funciona o Pacholok Team"
     >
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Header */}
-        <div className="mb-16">
+        <div className="mb-10 md:mb-16">
           <p className="anim-header text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase mb-4 opacity-0">
             Do primeiro contato à evolução contínua
           </p>
@@ -116,7 +116,7 @@ export function HowItWorks() {
         </div>
 
         {/* Bottom note */}
-        <div className="anim-note mt-16 bg-[#0F0F0F] border border-white/5 p-6 md:p-8 opacity-0">
+        <div className="anim-note mt-10 md:mt-16 bg-[#0F0F0F] border border-white/5 p-6 md:p-8 opacity-0">
           <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
             <div className="flex-1">
               <p className="text-white/70 text-sm leading-relaxed">

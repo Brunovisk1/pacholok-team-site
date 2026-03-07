@@ -107,7 +107,7 @@ export function LeadGate({ selectedPlan, formRef }: LeadGateProps) {
     <div
       ref={formRef}
       id="contato"
-      className="relative bg-[#0F0F0F] border border-white/10 p-8 md:p-10"
+      className="relative bg-[#0F0F0F] border border-white/10 p-5 sm:p-8 md:p-10"
       role="region"
       aria-label="Formulário de contato"
     >

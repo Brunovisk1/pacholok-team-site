@@ -58,12 +58,12 @@ export function ForWho() {
     <section
       ref={sectionRef}
       id="para-quem"
-      className="py-24 bg-[#080808]"
+      className="py-14 md:py-24 bg-[#080808] overflow-x-hidden"
       aria-label="Para quem é o Pacholok Team"
     >
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Section header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 md:mb-16">
           <p className="anim-header text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase mb-4 opacity-0">
             Seja honesto consigo mesmo
           </p>
@@ -133,7 +133,7 @@ export function ForWho() {
         </div>
 
         {/* Pull quote */}
-        <div className="anim-quote mt-16 text-center max-w-2xl mx-auto opacity-0">
+        <div className="anim-quote mt-10 md:mt-16 text-center max-w-2xl mx-auto opacity-0">
           <p className="text-white/20 text-xs tracking-widest uppercase mb-4">
             O manifesto
           </p>

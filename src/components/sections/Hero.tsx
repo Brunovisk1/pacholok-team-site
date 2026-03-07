@@ -71,7 +71,7 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex flex-col justify-center bg-[#0A0A0A] overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-center bg-[#0A0A0A] overflow-x-hidden"
       aria-label="Hero — Pacholok Team"
     >
       {/* Background texture / overlay */}
@@ -89,12 +89,12 @@ export function Hero() {
       {/* Thin horizontal gold line */}
       <div className="absolute left-0 right-0 top-[30%] h-px bg-gradient-to-r from-transparent via-gold-500/10 to-transparent" />
 
-      <div className="relative z-10 container mx-auto px-4 max-w-7xl pt-28 pb-16">
+      <div className="relative z-10 container mx-auto px-4 max-w-7xl pt-20 pb-10 md:pt-28 md:pb-16">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           {/* LEFT — Copy */}
           <div ref={copyRef} className="flex flex-col justify-center">
             {/* Pre-headline label */}
-            <div className="anim-label flex items-center gap-3 mb-8 opacity-0">
+            <div className="anim-label flex items-center gap-3 mb-6 md:mb-8 opacity-0">
               <div className="h-px w-12 bg-gold-500/60" />
               <span className="text-gold-500 text-xs font-semibold tracking-[0.3em] uppercase">
                 Método Pacholok
@@ -103,7 +103,7 @@ export function Hero() {
             </div>
 
             {/* Headline */}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-display font-bold text-white leading-[0.93] tracking-tighter overflow-hidden">
+            <h1 className="text-[2.35rem] sm:text-5xl lg:text-7xl font-display font-bold text-white leading-[0.93] tracking-tighter overflow-hidden">
               <span className="anim-h1-line block opacity-0">O melhor shape</span>
               <span className="anim-h1-line block opacity-0">da sua vida.</span>
               <span className="anim-h1-line block opacity-0">

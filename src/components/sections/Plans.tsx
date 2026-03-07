@@ -61,12 +61,12 @@ export function Plans() {
     <section
       ref={sectionRef}
       id="planos"
-      className="py-24 bg-[#080808]"
+      className="py-14 md:py-24 bg-[#080808]"
       aria-label="Planos Pacholok Team"
     >
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 md:mb-16">
           <p className="anim-header text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase mb-4 opacity-0">
             Escolha seu nível de comprometimento
           </p>

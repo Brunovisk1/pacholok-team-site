@@ -146,12 +146,12 @@ export function WhatYouGet() {
     <section
       ref={sectionRef}
       id="entregas"
-      className="py-24 bg-[#0A0A0A]"
+      className="py-14 md:py-24 bg-[#0A0A0A]"
       aria-label="O que você recebe no Pacholok Team"
     >
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Header */}
-        <div className="mb-16">
+        <div className="mb-10 md:mb-16">
           <p className="anim-header text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase mb-4 opacity-0">
             Sua entrega, do dia 1
           </p>
@@ -165,7 +165,7 @@ export function WhatYouGet() {
         </div>
 
         {/* Deliverables grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-20">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12 md:mb-20">
           {deliverables.map((item, index) => {
             const Icon = iconMap[item.icon] ?? Dumbbell;
             return (

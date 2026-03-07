@@ -24,10 +24,9 @@ function AppCarousel({ screenshots }: { screenshots: readonly string[] }) {
     if (!track) return;
     const clamped = Math.max(0, Math.min(index, total - 1));
     setCurrent(clamped);
-    animate(track, {
-      scrollLeft: clamped * (ITEM_WIDTH + GAP),
-      duration: 500,
-      ease: "outExpo",
+    track.scrollTo({
+      left: clamped * (ITEM_WIDTH + GAP),
+      behavior: "smooth",
     });
   }, [total]);
 

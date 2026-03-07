@@ -1,36 +1,131 @@
 "use client";
 
+import { useRef, useState, useCallback } from "react";
 import Image from "next/image";
-import {
-  Dumbbell,
-  Salad,
-  Pill,
-  Smartphone,
-  Users,
-  TrendingUp,
-  Trophy,
-  Tag,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, Dumbbell, Salad, Pill, Smartphone, Users, TrendingUp, Trophy, Tag } from "lucide-react";
 import { animate, stagger } from "animejs";
 import { useScrollAnimate } from "@/hooks/useScrollAnimate";
 import { siteConfig } from "@/content/site";
 
 const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
-  Dumbbell,
-  Salad,
-  Pill,
-  Smartphone,
-  Users,
-  TrendingUp,
-  Trophy,
-  Tag,
+  Dumbbell, Salad, Pill, Smartphone, Users, TrendingUp, Trophy, Tag,
 };
+
+const ITEM_WIDTH = 260; // px per slide
+const GAP = 16;         // gap-4
+
+function AppCarousel({ screenshots }: { screenshots: readonly string[] }) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [current, setCurrent] = useState(0);
+  const total = screenshots.length;
+
+  const scrollTo = useCallback((index: number) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const clamped = Math.max(0, Math.min(index, total - 1));
+    setCurrent(clamped);
+    animate(track, {
+      scrollLeft: clamped * (ITEM_WIDTH + GAP),
+      duration: 500,
+      ease: "outExpo",
+    });
+  }, [total]);
+
+  const prev = () => scrollTo(current - 1);
+  const next = () => scrollTo(current + 1);
+
+  return (
+    <div className="relative">
+      {/* Track */}
+      <div
+        ref={trackRef}
+        className="flex gap-4 overflow-x-auto"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
+        {/* Left padding sentinel */}
+        <div className="shrink-0 w-1" aria-hidden="true" />
+        {screenshots.map((src, i) => (
+          <div
+            key={i}
+            className="shrink-0"
+            style={{ width: ITEM_WIDTH }}
+          >
+            <div
+              className="relative overflow-hidden border border-white/10 bg-[#111] transition-all duration-300"
+              style={{ aspectRatio: "4/5" }}
+            >
+              <Image
+                src={src}
+                alt={`App Pacholok Team — tela ${i + 1}`}
+                fill
+                className="object-cover object-center"
+                sizes="260px"
+                loading={i < 3 ? "eager" : "lazy"}
+              />
+            </div>
+          </div>
+        ))}
+        {/* Right padding sentinel */}
+        <div className="shrink-0 w-1" aria-hidden="true" />
+      </div>
+
+      {/* Fade edges */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-[#0A0A0A] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-[#0A0A0A] to-transparent" />
+
+      {/* Navigation */}
+      <div className="flex items-center justify-between mt-6 px-1">
+        {/* Dots */}
+        <div className="flex gap-1.5" role="tablist" aria-label="Slides">
+          {screenshots.map((_, i) => (
+            <button
+              key={i}
+              role="tab"
+              aria-selected={i === current}
+              aria-label={`Ir para slide ${i + 1}`}
+              onClick={() => scrollTo(i)}
+              className={`h-px transition-all duration-300 ${
+                i === current
+                  ? "bg-gold-500 w-6"
+                  : "bg-white/20 w-3 hover:bg-white/40"
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Arrows */}
+        <div className="flex gap-2">
+          <button
+            onClick={prev}
+            disabled={current === 0}
+            className="w-8 h-8 flex items-center justify-center border border-white/10 text-white/40 hover:border-gold-500/50 hover:text-gold-500 disabled:opacity-20 transition-all"
+            aria-label="Slide anterior"
+          >
+            <ChevronLeft size={16} />
+          </button>
+          <button
+            onClick={next}
+            disabled={current === total - 1}
+            className="w-8 h-8 flex items-center justify-center border border-white/10 text-white/40 hover:border-gold-500/50 hover:text-gold-500 disabled:opacity-20 transition-all"
+            aria-label="Próximo slide"
+          >
+            <ChevronRight size={16} />
+          </button>
+        </div>
+      </div>
+
+      {/* Counter */}
+      <p className="mt-3 text-center text-white/20 text-xs">
+        {current + 1} / {total}
+      </p>
+    </div>
+  );
+}
 
 export function WhatYouGet() {
   const { deliverables, appScreenshots, flags } = siteConfig;
 
   const sectionRef = useScrollAnimate<HTMLElement>((el) => {
-    // Header
     animate(el.querySelectorAll(".anim-header"), {
       opacity: [0, 1],
       translateY: [20, 0],
@@ -39,7 +134,6 @@ export function WhatYouGet() {
       ease: "outExpo",
     });
 
-    // Deliverable cards — stagger up
     animate(el.querySelectorAll(".anim-card"), {
       opacity: [0, 1],
       translateY: [28, 0],
@@ -98,7 +192,7 @@ export function WhatYouGet() {
 
         {/* App Section */}
         {flags.enableAppScreenshots && appScreenshots.length > 0 && (
-          <div className="relative">
+          <div>
             <div className="mb-10 text-center">
               <p className="text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase mb-3">
                 Aplicativo exclusivo
@@ -112,31 +206,11 @@ export function WhatYouGet() {
               </p>
             </div>
 
-            <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10">
-              {appScreenshots.map((src, i) => (
-                <div
-                  key={i}
-                  className="snap-start shrink-0 w-[200px] sm:w-[220px]"
-                >
-                  <div className="relative aspect-[4/5] border border-white/10 overflow-hidden bg-[#111]">
-                    <Image
-                      src={src}
-                      alt={`App Pacholok Team — tela ${i + 1}`}
-                      fill
-                      className="object-cover object-center"
-                      sizes="220px"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
+            <AppCarousel screenshots={appScreenshots} />
 
-            <div className="mt-4 text-center">
-              <p className="text-white/20 text-xs">
-                Acesso liberado após assinatura. Exclusivo para alunos ativos.
-              </p>
-            </div>
+            <p className="mt-4 text-center text-white/20 text-xs">
+              Acesso liberado após assinatura. Exclusivo para alunos ativos.
+            </p>
           </div>
         )}
       </div>

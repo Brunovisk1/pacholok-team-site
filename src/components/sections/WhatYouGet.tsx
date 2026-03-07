@@ -11,6 +11,8 @@ import {
   Trophy,
   Tag,
 } from "lucide-react";
+import { animate, stagger } from "animejs";
+import { useScrollAnimate } from "@/hooks/useScrollAnimate";
 import { siteConfig } from "@/content/site";
 
 const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
@@ -27,8 +29,29 @@ const iconMap: Record<string, React.ComponentType<{ size?: number; className?: s
 export function WhatYouGet() {
   const { deliverables, appScreenshots, flags } = siteConfig;
 
+  const sectionRef = useScrollAnimate<HTMLElement>((el) => {
+    // Header
+    animate(el.querySelectorAll(".anim-header"), {
+      opacity: [0, 1],
+      translateY: [20, 0],
+      duration: 600,
+      delay: stagger(80),
+      ease: "outExpo",
+    });
+
+    // Deliverable cards — stagger up
+    animate(el.querySelectorAll(".anim-card"), {
+      opacity: [0, 1],
+      translateY: [28, 0],
+      duration: 650,
+      delay: stagger(70, { start: 250 }),
+      ease: "outExpo",
+    });
+  });
+
   return (
     <section
+      ref={sectionRef}
       id="entregas"
       className="py-24 bg-[#0A0A0A]"
       aria-label="O que você recebe no Pacholok Team"
@@ -36,13 +59,13 @@ export function WhatYouGet() {
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Header */}
         <div className="mb-16">
-          <p className="text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase mb-4">
+          <p className="anim-header text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase mb-4 opacity-0">
             Sua entrega, do dia 1
           </p>
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-white">
+          <h2 className="anim-header text-3xl md:text-4xl font-display font-bold text-white opacity-0">
             O que você recebe
           </h2>
-          <p className="mt-4 text-white/40 max-w-xl text-sm leading-relaxed">
+          <p className="anim-header mt-4 text-white/40 max-w-xl text-sm leading-relaxed opacity-0">
             Nada de PDF improvisado ou planilha do Google. Sua experiência
             começa no app e termina no shape que você foi buscar.
           </p>
@@ -55,7 +78,7 @@ export function WhatYouGet() {
             return (
               <div
                 key={index}
-                className="group bg-[#0F0F0F] border border-white/5 [border-top:2px_solid_rgba(201,168,76,0.08)] p-6 hover:[border-top:2px_solid_rgba(201,168,76,0.35)] hover:border-gold-500/20 hover:bg-[#111] transition-all"
+                className="anim-card group bg-[#0F0F0F] border border-white/5 [border-top:2px_solid_rgba(201,168,76,0.08)] p-6 hover:[border-top:2px_solid_rgba(201,168,76,0.35)] hover:border-gold-500/20 hover:bg-[#111] transition-all opacity-0"
               >
                 <div className="mb-4">
                   <div className="w-10 h-10 flex items-center justify-center bg-gold-500/10 border border-gold-500/20 mb-4 group-hover:bg-gold-500/20 group-hover:border-gold-500/40 transition-colors">

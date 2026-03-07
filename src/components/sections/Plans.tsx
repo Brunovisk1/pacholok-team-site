@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Check, X, MessageCircle } from "lucide-react";
+import { animate, stagger } from "animejs";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/content/site";
 import {
@@ -11,9 +12,31 @@ import {
 } from "@/lib/whatsapp";
 import { captureUTM } from "@/lib/utm";
 import { cn } from "@/lib/cn";
+import { useScrollAnimate } from "@/hooks/useScrollAnimate";
 
 export function Plans() {
   const [hoveredPlan, setHoveredPlan] = useState<string | null>(null);
+
+  const sectionRef = useScrollAnimate<HTMLElement>((el) => {
+    // Header
+    animate(el.querySelectorAll(".anim-header"), {
+      opacity: [0, 1],
+      translateY: [20, 0],
+      duration: 600,
+      delay: stagger(80),
+      ease: "outExpo",
+    });
+
+    // Plan cards — stagger scale + slide up
+    animate(el.querySelectorAll(".anim-card"), {
+      opacity: [0, 1],
+      translateY: [32, 0],
+      scale: [0.97, 1],
+      duration: 700,
+      delay: stagger(90, { start: 250 }),
+      ease: "outExpo",
+    });
+  });
 
   const handlePlanCTA = (plan: (typeof siteConfig.plans)[number]) => {
     const utm = captureUTM();
@@ -36,6 +59,7 @@ export function Plans() {
 
   return (
     <section
+      ref={sectionRef}
       id="planos"
       className="py-24 bg-[#080808]"
       aria-label="Planos Pacholok Team"
@@ -43,13 +67,13 @@ export function Plans() {
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Header */}
         <div className="text-center mb-16">
-          <p className="text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase mb-4">
+          <p className="anim-header text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase mb-4 opacity-0">
             Escolha seu nível de comprometimento
           </p>
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-white">
+          <h2 className="anim-header text-3xl md:text-4xl font-display font-bold text-white opacity-0">
             Planos
           </h2>
-          <p className="mt-4 text-white/40 max-w-xl mx-auto text-sm leading-relaxed">
+          <p className="anim-header mt-4 text-white/40 max-w-xl mx-auto text-sm leading-relaxed opacity-0">
             Quanto maior o compromisso, menor o custo mensal e maior o resultado
             acumulado. Todos os planos entregam protocolos 100% personalizados.
           </p>
@@ -63,7 +87,7 @@ export function Plans() {
               onMouseEnter={() => setHoveredPlan(plan.id)}
               onMouseLeave={() => setHoveredPlan(null)}
               className={cn(
-                "relative flex flex-col border transition-all duration-300 group",
+                "anim-card relative flex flex-col border transition-all duration-300 group opacity-0",
                 plan.highlight
                   ? "border-gold-500/60 bg-[#0F0F0F] gold-glow"
                   : hoveredPlan === plan.id

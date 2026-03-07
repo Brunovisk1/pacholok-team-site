@@ -1,11 +1,63 @@
+"use client";
+
 import Image from "next/image";
+import { animate, stagger } from "animejs";
+import { useScrollAnimate } from "@/hooks/useScrollAnimate";
 import { siteConfig } from "@/content/site";
 
 export function TeamMethod() {
   const { team } = siteConfig;
 
+  const sectionRef = useScrollAnimate<HTMLElement>((el) => {
+    // Header
+    animate(el.querySelectorAll(".anim-header"), {
+      opacity: [0, 1],
+      translateY: [20, 0],
+      duration: 600,
+      delay: stagger(80),
+      ease: "outExpo",
+    });
+
+    // Founder copy — slide from left
+    animate(el.querySelectorAll(".anim-founder-copy"), {
+      opacity: [0, 1],
+      translateX: [-28, 0],
+      duration: 700,
+      delay: 250,
+      ease: "outExpo",
+    });
+
+    // Founder image — slide from right
+    animate(el.querySelectorAll(".anim-founder-img"), {
+      opacity: [0, 1],
+      translateX: [28, 0],
+      duration: 700,
+      delay: 350,
+      ease: "outExpo",
+    });
+
+    // Method pillars — stagger
+    animate(el.querySelectorAll(".anim-pillar"), {
+      opacity: [0, 1],
+      translateY: [16, 0],
+      duration: 550,
+      delay: stagger(70, { start: 500 }),
+      ease: "outExpo",
+    });
+
+    // Athlete cards — stagger
+    animate(el.querySelectorAll(".anim-athlete"), {
+      opacity: [0, 1],
+      translateY: [24, 0],
+      duration: 650,
+      delay: stagger(100, { start: 400 }),
+      ease: "outExpo",
+    });
+  });
+
   return (
     <section
+      ref={sectionRef}
       id="equipe"
       className="py-24 bg-[#080808]"
       aria-label="Equipe e método Pacholok"
@@ -13,13 +65,13 @@ export function TeamMethod() {
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Header */}
         <div className="text-center mb-16">
-          <p className="text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase mb-4">
+          <p className="anim-header text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase mb-4 opacity-0">
             O método em campo
           </p>
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-white">
+          <h2 className="anim-header text-3xl md:text-4xl font-display font-bold text-white opacity-0">
             Equipe e método
           </h2>
-          <p className="mt-4 text-white/40 max-w-xl mx-auto text-sm leading-relaxed">
+          <p className="anim-header mt-4 text-white/40 max-w-xl mx-auto text-sm leading-relaxed opacity-0">
             Profissionais treinados pelo método Pacholok. Não vendemos um nome —
             entregamos a responsabilidade que esse nome carrega.
           </p>
@@ -27,7 +79,7 @@ export function TeamMethod() {
 
         {/* Founder */}
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
-          <div className="order-2 lg:order-1">
+          <div className="anim-founder-copy order-2 lg:order-1 opacity-0">
             <p className="text-gold-500/60 text-xs font-semibold tracking-[0.2em] uppercase mb-4">
               Fundador
             </p>
@@ -48,7 +100,7 @@ export function TeamMethod() {
               ].map((pillar) => (
                 <div
                   key={pillar.label}
-                  className="bg-[#0F0F0F] border border-white/5 p-4"
+                  className="anim-pillar bg-[#0F0F0F] border border-white/5 p-4 opacity-0"
                 >
                   <p className="text-gold-500 text-xs font-semibold mb-1">
                     {pillar.label}
@@ -61,7 +113,7 @@ export function TeamMethod() {
             </div>
           </div>
 
-          <div className="order-1 lg:order-2 flex justify-center">
+          <div className="anim-founder-img order-1 lg:order-2 flex justify-center opacity-0">
             <div className="relative">
               {/* Gold frame accent */}
               <div className="absolute -inset-3 border border-gold-500/10" />
@@ -100,7 +152,7 @@ export function TeamMethod() {
               {team.athletes.map((athlete) => (
                 <div
                   key={athlete.name}
-                  className="bg-[#0F0F0F] border border-white/5 overflow-hidden"
+                  className="anim-athlete bg-[#0F0F0F] border border-white/5 overflow-hidden opacity-0"
                 >
                   <div className="relative h-48 bg-[#111]">
                     <Image

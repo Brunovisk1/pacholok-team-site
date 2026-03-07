@@ -1,10 +1,52 @@
+"use client";
+
+import { animate, stagger } from "animejs";
+import { useScrollAnimate } from "@/hooks/useScrollAnimate";
 import { siteConfig } from "@/content/site";
 
 export function HowItWorks() {
   const steps = siteConfig.howItWorks;
 
+  const sectionRef = useScrollAnimate<HTMLDivElement>((el) => {
+    // Header block
+    animate(el.querySelectorAll(".anim-header"), {
+      opacity: [0, 1],
+      translateY: [20, 0],
+      duration: 600,
+      delay: stagger(80),
+      ease: "outExpo",
+    });
+
+    // Vertical timeline line — draw downward
+    animate(el.querySelectorAll(".anim-vline"), {
+      scaleY: [0, 1],
+      duration: 900,
+      delay: 200,
+      ease: "outExpo",
+    });
+
+    // Steps — stagger slide in from left
+    animate(el.querySelectorAll(".anim-step"), {
+      opacity: [0, 1],
+      translateX: [-24, 0],
+      duration: 650,
+      delay: stagger(100, { start: 300 }),
+      ease: "outExpo",
+    });
+
+    // Bottom note
+    animate(el.querySelectorAll(".anim-note"), {
+      opacity: [0, 1],
+      translateY: [16, 0],
+      duration: 600,
+      delay: steps.length * 100 + 500,
+      ease: "outExpo",
+    });
+  });
+
   return (
     <section
+      ref={sectionRef}
       id="como-funciona"
       className="py-24 bg-[#0A0A0A]"
       aria-label="Como funciona o Pacholok Team"
@@ -12,13 +54,13 @@ export function HowItWorks() {
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Header */}
         <div className="mb-16">
-          <p className="text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase mb-4">
+          <p className="anim-header text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase mb-4 opacity-0">
             Do primeiro contato à evolução contínua
           </p>
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-white">
+          <h2 className="anim-header text-3xl md:text-4xl font-display font-bold text-white opacity-0">
             Como funciona
           </h2>
-          <p className="mt-4 text-white/40 max-w-xl text-sm leading-relaxed">
+          <p className="anim-header mt-4 text-white/40 max-w-xl text-sm leading-relaxed opacity-0">
             Sem surpresas, sem burocracia. Um processo estruturado do início ao
             fim — para que você saiba exatamente o que esperar.
           </p>
@@ -27,11 +69,14 @@ export function HowItWorks() {
         {/* Steps */}
         <div className="relative">
           {/* Vertical line */}
-          <div className="hidden md:block absolute left-[calc(2.5rem_-_1px)] top-0 bottom-0 w-px bg-gradient-to-b from-gold-500/30 via-gold-500/10 to-transparent" />
+          <div
+            className="anim-vline hidden md:block absolute left-[calc(2.5rem_-_1px)] top-0 bottom-0 w-px bg-gradient-to-b from-gold-500/30 via-gold-500/10 to-transparent opacity-0"
+            style={{ transformOrigin: "top" }}
+          />
 
           <ol className="space-y-10" role="list">
             {steps.map((step, index) => (
-              <li key={step.step} className="relative flex gap-8 group">
+              <li key={step.step} className="anim-step relative flex gap-8 group opacity-0">
                 {/* Step number circle */}
                 <div className="relative shrink-0 flex flex-col items-center">
                   <div
@@ -71,7 +116,7 @@ export function HowItWorks() {
         </div>
 
         {/* Bottom note */}
-        <div className="mt-16 bg-[#0F0F0F] border border-white/5 p-6 md:p-8">
+        <div className="anim-note mt-16 bg-[#0F0F0F] border border-white/5 p-6 md:p-8 opacity-0">
           <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
             <div className="flex-1">
               <p className="text-white/70 text-sm leading-relaxed">

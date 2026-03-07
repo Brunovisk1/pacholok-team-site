@@ -1,11 +1,36 @@
+"use client";
+
 import { Quote } from "lucide-react";
+import { animate, stagger } from "animejs";
+import { useScrollAnimate } from "@/hooks/useScrollAnimate";
 import { siteConfig } from "@/content/site";
 
 export function Testimonials() {
   const { testimonials } = siteConfig;
 
+  const sectionRef = useScrollAnimate<HTMLElement>((el) => {
+    // Header
+    animate(el.querySelectorAll(".anim-header"), {
+      opacity: [0, 1],
+      translateY: [20, 0],
+      duration: 600,
+      delay: stagger(80),
+      ease: "outExpo",
+    });
+
+    // Testimonial cards — stagger up
+    animate(el.querySelectorAll(".anim-card"), {
+      opacity: [0, 1],
+      translateY: [28, 0],
+      duration: 700,
+      delay: stagger(100, { start: 250 }),
+      ease: "outExpo",
+    });
+  });
+
   return (
     <section
+      ref={sectionRef}
       id="depoimentos"
       className="py-24 bg-[#0A0A0A]"
       aria-label="Depoimentos de alunos"
@@ -13,13 +38,13 @@ export function Testimonials() {
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Header */}
         <div className="text-center mb-16">
-          <p className="text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase mb-4">
+          <p className="anim-header text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase mb-4 opacity-0">
             Quem esteve no processo
           </p>
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-white">
+          <h2 className="anim-header text-3xl md:text-4xl font-display font-bold text-white opacity-0">
             Resultados reais
           </h2>
-          <p className="mt-4 text-white/40 max-w-xl mx-auto text-sm leading-relaxed">
+          <p className="anim-header mt-4 text-white/40 max-w-xl mx-auto text-sm leading-relaxed opacity-0">
             Shapes construídos. Não fabricados.
           </p>
         </div>
@@ -29,7 +54,7 @@ export function Testimonials() {
           {testimonials.map((t, i) => (
             <figure
               key={i}
-              className="bg-[#0F0F0F] border border-white/5 border-l-2 border-l-gold-500/30 p-7 flex flex-col relative hover:border-l-gold-500/50 transition-colors"
+              className="anim-card bg-[#0F0F0F] border border-white/5 border-l-2 border-l-gold-500/30 p-7 flex flex-col relative hover:border-l-gold-500/50 transition-colors opacity-0"
             >
               {/* Quote mark */}
               <Quote

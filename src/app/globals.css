@@ -27,9 +27,14 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  html {
+    overflow-x: hidden;
+  }
+
   body {
     @apply bg-[#0A0A0A] text-white;
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+    overflow-x: hidden;
   }
 
   /* Focus visible ring reset */

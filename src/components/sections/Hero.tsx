@@ -130,7 +130,7 @@ export function Hero() {
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-3 mt-10">
-              <div className="anim-cta opacity-0">
+              <div className="anim-cta opacity-0 w-full sm:w-auto">
                 <Button
                   variant="whatsapp"
                   size="lg"

@@ -43,8 +43,8 @@ export function SocialProofToast() {
   const [last, setLast] = useState<(typeof NOTIFICATIONS)[0] | null>(null);
 
   useEffect(() => {
-    // Primeira aparição após 10s
-    const firstTimer = setTimeout(() => showNext(null), 10000);
+    // Primeira aparição após 25s
+    const firstTimer = setTimeout(() => showNext(null), 25000);
     return () => clearTimeout(firstTimer);
   }, []);
 
@@ -60,8 +60,8 @@ export function SocialProofToast() {
     const hideTimer = setTimeout(() => {
       setVisible(false);
 
-      // Próxima aparição 10s depois de sumir
-      const nextTimer = setTimeout(() => showNext(item), 10000);
+      // Próxima aparição 25s depois de sumir
+      const nextTimer = setTimeout(() => showNext(item), 25000);
       return () => clearTimeout(nextTimer);
     }, 5000);
 

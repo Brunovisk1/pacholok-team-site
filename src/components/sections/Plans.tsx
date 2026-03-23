@@ -14,9 +14,11 @@ import { captureUTM } from "@/lib/utm";
 import { cn } from "@/lib/cn";
 import { useScrollAnimate } from "@/hooks/useScrollAnimate";
 import { VacancyBar } from "@/components/ui/VacancyBar";
+import { PlanQuiz } from "@/components/ui/PlanQuiz";
 
 export function Plans() {
   const [hoveredPlan, setHoveredPlan] = useState<string | null>(null);
+  const [quizOpen, setQuizOpen] = useState(false);
 
   const sectionRef = useScrollAnimate<HTMLElement>((el) => {
     // Header
@@ -78,6 +80,13 @@ export function Plans() {
             Quanto maior o compromisso, menor o custo mensal e maior o resultado
             acumulado. Todos os planos entregam protocolos 100% personalizados.
           </p>
+
+          <button
+            onClick={() => setQuizOpen(true)}
+            className="anim-header mt-5 inline-flex items-center gap-2 rounded-full border border-amber-400/30 bg-amber-400/5 px-5 py-2 text-xs font-semibold text-amber-400 transition hover:bg-amber-400/10 opacity-0"
+          >
+            Não sabe qual escolher? Descubra em 3 perguntas →
+          </button>
         </div>
 
         {/* Barra de vagas */}
@@ -219,6 +228,9 @@ export function Plans() {
             </article>
           ))}
         </div>
+
+        {/* Quiz modal */}
+        <PlanQuiz open={quizOpen} onClose={() => setQuizOpen(false)} />
 
         {/* Footnote */}
         <p className="mt-8 text-center text-white/20 text-xs">

@@ -13,6 +13,7 @@ import {
 import { captureUTM } from "@/lib/utm";
 import { cn } from "@/lib/cn";
 import { useScrollAnimate } from "@/hooks/useScrollAnimate";
+import { SweepLine } from "@/components/ui/SweepLine";
 import { VacancyBar } from "@/components/ui/VacancyBar";
 import { PlanQuiz } from "@/components/ui/PlanQuiz";
 
@@ -67,6 +68,7 @@ export function Plans() {
       className="py-14 md:py-24 bg-[#080808]"
       aria-label="Planos Pacholok Team"
     >
+      <SweepLine />
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Header */}
         <div className="text-center mb-10 md:mb-16">

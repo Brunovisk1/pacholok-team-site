@@ -3,6 +3,7 @@
 import { Quote } from "lucide-react";
 import { animate, stagger } from "animejs";
 import { useScrollAnimate } from "@/hooks/useScrollAnimate";
+import { SweepLine } from "@/components/ui/SweepLine";
 import { siteConfig } from "@/content/site";
 
 export function Testimonials() {
@@ -35,6 +36,7 @@ export function Testimonials() {
       className="py-14 md:py-24 bg-[#0A0A0A]"
       aria-label="Depoimentos de alunos"
     >
+      <SweepLine />
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Header */}
         <div className="text-center mb-10 md:mb-16">

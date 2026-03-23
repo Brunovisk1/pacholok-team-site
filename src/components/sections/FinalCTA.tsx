@@ -3,6 +3,7 @@
 import { MessageCircle } from "lucide-react";
 import { animate, stagger } from "animejs";
 import { useScrollAnimate } from "@/hooks/useScrollAnimate";
+import { SweepLine } from "@/components/ui/SweepLine";
 import { LeadGate } from "./LeadGate";
 
 export function FinalCTA() {
@@ -58,6 +59,7 @@ export function FinalCTA() {
       className="py-14 md:py-24 bg-[#0A0A0A] relative overflow-hidden"
       aria-label="CTA final — Falar com a equipe"
     >
+      <SweepLine />
       {/* Background glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,_rgba(201,168,76,0.09)_0%,_transparent_70%)]" />
 

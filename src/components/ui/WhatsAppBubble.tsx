@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { siteConfig } from "@/content/site";
 import { buildWhatsAppURL } from "@/lib/whatsapp";
@@ -28,6 +28,8 @@ function WhatsAppIcon({ size = 26 }: { size?: number }) {
 export function WhatsAppBubble() {
   const [balloonVisible, setBalloonVisible] = useState(false);
   const [balloonDismissed, setBalloonDismissed] = useState(false);
+  const btnRef = useRef<HTMLAnchorElement>(null);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
 
   // Exibe balão após 8s (só uma vez)
   useEffect(() => {
@@ -44,6 +46,41 @@ export function WhatsAppBubble() {
     return () => clearTimeout(hide);
   }, [balloonVisible]);
 
+  // Magnetic effect
+  useEffect(() => {
+    const btn = btnRef.current;
+    if (!btn) return;
+
+    const RADIUS = 90;
+    const STRENGTH = 0.38;
+
+    function onMove(e: MouseEvent) {
+      const rect = btn!.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < RADIUS) {
+        setOffset({ x: dx * STRENGTH, y: dy * STRENGTH });
+      } else {
+        setOffset({ x: 0, y: 0 });
+      }
+    }
+
+    function onLeave() {
+      setOffset({ x: 0, y: 0 });
+    }
+
+    window.addEventListener("mousemove", onMove);
+    btn.addEventListener("mouseleave", onLeave);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      btn.removeEventListener("mouseleave", onLeave);
+    };
+  }, []);
+
   function dismissBalloon() {
     setBalloonVisible(false);
     setBalloonDismissed(true);
@@ -59,7 +96,6 @@ export function WhatsAppBubble() {
             : "opacity-0 translate-y-2 pointer-events-none"
         }`}
       >
-        {/* Fechar balão */}
         <button
           onClick={dismissBalloon}
           className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-white/10 text-white/40 hover:text-white transition"
@@ -82,18 +118,24 @@ export function WhatsAppBubble() {
           Chamar no WhatsApp
         </a>
 
-        {/* Rabinho do balão */}
         <div className="absolute -bottom-2 right-3 h-0 w-0 border-l-8 border-r-0 border-t-8 border-l-transparent border-t-[#1a1a1a]" />
       </div>
 
-      {/* Botão flutuante */}
+      {/* Botão flutuante magnético */}
       <a
+        ref={btnRef}
         href={WA_URL}
         target="_blank"
         rel="noopener noreferrer"
         onClick={dismissBalloon}
         aria-label="Falar no WhatsApp"
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-md transition hover:bg-[#20b858] hover:scale-105 active:scale-95"
+        style={{
+          transform: `translate(${offset.x}px, ${offset.y}px)`,
+          transition: offset.x === 0 && offset.y === 0
+            ? "transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)"
+            : "transform 0.1s linear",
+        }}
+        className="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-md hover:bg-[#20b858] hover:scale-105 active:scale-95"
       >
         <WhatsAppIcon size={28} />
       </a>

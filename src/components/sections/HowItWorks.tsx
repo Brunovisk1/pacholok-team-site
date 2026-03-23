@@ -2,6 +2,7 @@
 
 import { animate, stagger } from "animejs";
 import { useScrollAnimate } from "@/hooks/useScrollAnimate";
+import { SweepLine } from "@/components/ui/SweepLine";
 import { siteConfig } from "@/content/site";
 
 export function HowItWorks() {
@@ -51,6 +52,7 @@ export function HowItWorks() {
       className="py-14 md:py-24 bg-[#0A0A0A]"
       aria-label="Como funciona o Pacholok Team"
     >
+      <SweepLine />
       <div className="container mx-auto px-4 max-w-7xl">
         {/* Header */}
         <div className="mb-10 md:mb-16">

@@ -5,6 +5,7 @@ import { ChevronDown, MessageCircle, ShoppingCart } from "lucide-react";
 import { animate, stagger } from "animejs";
 import { Button } from "@/components/ui/button";
 import { LeadGate } from "./LeadGate";
+import { HeroParticles } from "./HeroParticles";
 import { siteConfig } from "@/content/site";
 
 export function Hero() {
@@ -74,6 +75,9 @@ export function Hero() {
       className="relative min-h-screen flex flex-col justify-center bg-[#0A0A0A] overflow-x-hidden"
       aria-label="Hero — Pacholok Team"
     >
+      {/* Particles */}
+      <HeroParticles />
+
       {/* Background texture / overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_80%_10%,_rgba(201,168,76,0.13)_0%,_transparent_65%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_10%_90%,_rgba(201,168,76,0.07)_0%,_transparent_65%)]" />

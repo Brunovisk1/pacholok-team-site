@@ -161,21 +161,43 @@ export function HeroParticles() {
       mouse.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
     };
 
+    // Click burst — spawn 20 particles from click point
+    const onClick = (e: MouseEvent) => {
+      const rect = canvas!.getBoundingClientRect();
+      const cx = e.clientX - rect.left;
+      const cy = e.clientY - rect.top;
+      for (let i = 0; i < 22; i++) {
+        const angle = (Math.PI * 2 * i) / 22 + Math.random() * 0.3;
+        const speed = Math.random() * 3.5 + 1;
+        particles.push({
+          x: cx,
+          y: cy,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed - 1,
+          radius: Math.random() * 2.5 + 0.8,
+          alpha: Math.random() * 0.7 + 0.3,
+          trail: [],
+        });
+      }
+    };
+
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
     window.addEventListener("mousemove", onMouseMove);
+    canvas.addEventListener("click", onClick);
 
     return () => {
       cancelAnimationFrame(animId);
       ro.disconnect();
       window.removeEventListener("mousemove", onMouseMove);
+      canvas.removeEventListener("click", onClick);
     };
   }, []);
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none"
+      className="absolute inset-0 w-full h-full cursor-crosshair"
       aria-hidden="true"
     />
   );

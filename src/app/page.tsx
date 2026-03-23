@@ -12,6 +12,7 @@ import { FinalCTA } from "@/components/sections/FinalCTA";
 import { PromoPopup } from "@/components/ui/PromoPopup";
 import { SocialProofToast } from "@/components/ui/SocialProofToast";
 import { VacancyProvider } from "@/components/ui/VacancyContext";
+import { LiveViewerBadge } from "@/components/ui/LiveViewerBadge";
 
 export default function HomePage() {
   return (
@@ -64,8 +65,11 @@ export default function HomePage() {
       </main>
       <Footer />
 
-      {/* Toast de prova social — aparece a cada 10 segundos */}
+      {/* Toast de prova social — aparece a cada 25 segundos */}
       <SocialProofToast />
+
+      {/* Contador de espectadores ao vivo */}
+      <LiveViewerBadge />
 
       {/* Popup promocional — aparece após 4 segundos */}
       <PromoPopup

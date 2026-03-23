@@ -11,6 +11,51 @@ import { siteConfig } from "@/content/site";
 export function Hero() {
   const formRef = useRef<HTMLDivElement>(null);
   const copyRef = useRef<HTMLDivElement>(null);
+  const h1Ref = useRef<HTMLHeadingElement>(null);
+
+  // Magnetic headline — each line drifts toward the cursor
+  useEffect(() => {
+    const h1 = h1Ref.current;
+    if (!h1 || window.matchMedia("(hover: none)").matches) return;
+
+    const RADIUS = 220;
+    const STRENGTH = 0.22;
+
+    const onMove = (e: MouseEvent) => {
+      const lines = h1.querySelectorAll<HTMLSpanElement>(".anim-h1-line");
+      lines.forEach((line) => {
+        const rect = line.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = e.clientX - cx;
+        const dy = e.clientY - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < RADIUS) {
+          const pull = (1 - dist / RADIUS) * STRENGTH;
+          line.style.transform = `translate(${dx * pull}px, ${dy * pull}px)`;
+          line.style.transition = "transform 0.08s linear";
+        } else {
+          line.style.transform = "translate(0,0)";
+          line.style.transition = "transform 0.5s cubic-bezier(0.23,1,0.32,1)";
+        }
+      });
+    };
+
+    const onLeave = () => {
+      h1.querySelectorAll<HTMLSpanElement>(".anim-h1-line").forEach((line) => {
+        line.style.transform = "translate(0,0)";
+        line.style.transition = "transform 0.6s cubic-bezier(0.23,1,0.32,1)";
+      });
+    };
+
+    window.addEventListener("mousemove", onMove, { passive: true });
+    document.addEventListener("mouseleave", onLeave);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseleave", onLeave);
+    };
+  }, []);
 
   const scrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -107,7 +152,7 @@ export function Hero() {
             </div>
 
             {/* Headline */}
-            <h1 className="text-[2.35rem] sm:text-5xl lg:text-7xl font-display font-bold text-white leading-[0.93] tracking-tighter overflow-hidden">
+            <h1 ref={h1Ref} className="text-[2.35rem] sm:text-5xl lg:text-7xl font-display font-bold text-white leading-[0.93] tracking-tighter overflow-hidden">
               <span className="anim-h1-line block opacity-0">O melhor shape</span>
               <span className="anim-h1-line block opacity-0">da sua vida.</span>
               <span className="anim-h1-line block opacity-0">

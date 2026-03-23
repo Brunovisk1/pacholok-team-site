@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/content/site";
+import { CursorSpotlight } from "@/components/ui/CursorSpotlight";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -56,6 +57,7 @@ export default function RootLayout({
         <link rel="icon" href={siteConfig.brand.favicon} sizes="any" />
       </head>
       <body className="min-h-screen bg-[#0A0A0A] text-white antialiased">
+        <CursorSpotlight />
         {children}
       </body>
     </html>

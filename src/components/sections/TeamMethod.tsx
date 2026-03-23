@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 import { animate, stagger } from "animejs";
 import { useScrollAnimate } from "@/hooks/useScrollAnimate";
 import { SweepLine } from "@/components/ui/SweepLine";
@@ -8,6 +9,20 @@ import { siteConfig } from "@/content/site";
 
 export function TeamMethod() {
   const { team } = siteConfig;
+  const founderImgRef = useRef<HTMLDivElement>(null);
+
+  // Parallax na foto do founder
+  useEffect(() => {
+    const el = founderImgRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const rect = el.getBoundingClientRect();
+      const center = rect.top + rect.height / 2 - window.innerHeight / 2;
+      el.style.transform = `translateY(${center * 0.08}px)`;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const sectionRef = useScrollAnimate<HTMLElement>((el) => {
     // Header
@@ -115,7 +130,7 @@ export function TeamMethod() {
             </div>
           </div>
 
-          <div className="anim-founder-img order-1 lg:order-2 flex justify-center opacity-0">
+          <div ref={founderImgRef} className="anim-founder-img order-1 lg:order-2 flex justify-center opacity-0">
             <div className="relative">
               {/* Gold frame accent */}
               <div className="absolute -inset-3 border border-gold-500/10" />

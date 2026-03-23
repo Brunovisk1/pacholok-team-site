@@ -35,6 +35,19 @@ export function HowItWorks() {
       ease: "outExpo",
     });
 
+    // Step circles — pulse dourado ao entrar
+    animate(el.querySelectorAll(".anim-step-circle"), {
+      scale: [1, 1.18, 1],
+      boxShadow: [
+        "0 0 0px rgba(201,168,76,0)",
+        "0 0 18px rgba(201,168,76,0.6)",
+        "0 0 0px rgba(201,168,76,0)",
+      ],
+      duration: 600,
+      delay: stagger(100, { start: 500 }),
+      ease: "outExpo",
+    });
+
     // Bottom note
     animate(el.querySelectorAll(".anim-note"), {
       opacity: [0, 1],
@@ -82,7 +95,7 @@ export function HowItWorks() {
                 {/* Step number circle */}
                 <div className="relative shrink-0 flex flex-col items-center">
                   <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center border text-sm font-bold tracking-wider transition-all z-10 ${
+                    className={`anim-step-circle w-12 h-12 rounded-full flex items-center justify-center border text-sm font-bold tracking-wider transition-all z-10 ${
                       index === 0
                         ? "border-gold-500 bg-gold-500/15 text-gold-500"
                         : "border-white/20 bg-[#0A0A0A] text-white/40 group-hover:border-gold-500/50 group-hover:text-gold-500/60"

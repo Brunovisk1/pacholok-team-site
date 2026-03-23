@@ -10,6 +10,7 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { FAQ } from "@/components/sections/FAQ";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { PromoPopup } from "@/components/ui/PromoPopup";
+import { SocialProofToast } from "@/components/ui/SocialProofToast";
 
 export default function HomePage() {
   return (
@@ -61,6 +62,9 @@ export default function HomePage() {
         <FinalCTA />
       </main>
       <Footer />
+
+      {/* Toast de prova social — aparece a cada 10 segundos */}
+      <SocialProofToast />
 
       {/* Popup promocional — aparece após 4 segundos */}
       <PromoPopup

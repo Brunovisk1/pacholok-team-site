@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useVacancy } from "./VacancyContext";
 
 const NOTIFICATIONS = [
   { name: "João V.", city: "São Paulo, SP", plan: "Olimpo" },
@@ -27,45 +28,40 @@ const PLAN_COLORS: Record<string, string> = {
   Centurião: "text-rose-400",
 };
 
-function getMinutesAgo() {
-  return Math.floor(Math.random() * 9) + 1; // 1–9 min atrás
-}
-
 function pickRandom<T>(arr: T[], exclude?: T): T {
   const pool = exclude ? arr.filter((i) => i !== exclude) : arr;
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
 export function SocialProofToast() {
+  const { decrement } = useVacancy();
   const [current, setCurrent] = useState<(typeof NOTIFICATIONS)[0] | null>(null);
   const [minutesAgo, setMinutesAgo] = useState(1);
   const [visible, setVisible] = useState(false);
-  const [last, setLast] = useState<(typeof NOTIFICATIONS)[0] | null>(null);
+  const lastRef = useRef<(typeof NOTIFICATIONS)[0] | null>(null);
 
   useEffect(() => {
-    // Primeira aparição após 25s
-    const firstTimer = setTimeout(() => showNext(null), 25000);
-    return () => clearTimeout(firstTimer);
+    const first = setTimeout(() => showNext(), 25000);
+    return () => clearTimeout(first);
   }, []);
 
-  function showNext(lastItem: (typeof NOTIFICATIONS)[0] | null) {
-    const item = pickRandom(NOTIFICATIONS, lastItem ?? undefined);
-    const mins = getMinutesAgo();
+  function showNext() {
+    const item = pickRandom(NOTIFICATIONS, lastRef.current ?? undefined);
+    lastRef.current = item;
+    setMinutesAgo(Math.floor(Math.random() * 9) + 1);
     setCurrent(item);
-    setMinutesAgo(mins);
-    setLast(item);
     setVisible(true);
 
-    // Esconde após 5s
-    const hideTimer = setTimeout(() => {
-      setVisible(false);
+    // Decrementa a barra de vagas ao "confirmar" entrada
+    decrement();
 
-      // Próxima aparição 25s depois de sumir
-      const nextTimer = setTimeout(() => showNext(item), 25000);
-      return () => clearTimeout(nextTimer);
+    const hide = setTimeout(() => {
+      setVisible(false);
+      const next = setTimeout(() => showNext(), 25000);
+      return () => clearTimeout(next);
     }, 5000);
 
-    return () => clearTimeout(hideTimer);
+    return () => clearTimeout(hide);
   }
 
   if (!current) return null;
@@ -79,12 +75,10 @@ export function SocialProofToast() {
       }`}
       style={{ maxWidth: 300 }}
     >
-      {/* Avatar */}
       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-base font-bold text-white">
         {current.name[0]}
       </div>
 
-      {/* Texto */}
       <div className="min-w-0">
         <p className="text-sm font-semibold text-white leading-tight">
           {current.name}{" "}

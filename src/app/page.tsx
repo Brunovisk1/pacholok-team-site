@@ -11,10 +11,11 @@ import { FAQ } from "@/components/sections/FAQ";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { PromoPopup } from "@/components/ui/PromoPopup";
 import { SocialProofToast } from "@/components/ui/SocialProofToast";
+import { VacancyProvider } from "@/components/ui/VacancyContext";
 
 export default function HomePage() {
   return (
-    <>
+    <VacancyProvider>
       <Header />
       <main id="main-content">
         {/* (1) Hero + Lead Gate */}
@@ -75,6 +76,6 @@ export default function HomePage() {
         ctaLabel="Quero Aproveitar"
         ctaUrl="#planos"
       />
-    </>
+    </VacancyProvider>
   );
 }

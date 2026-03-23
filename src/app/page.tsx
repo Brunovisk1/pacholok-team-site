@@ -13,6 +13,7 @@ import { PromoPopup } from "@/components/ui/PromoPopup";
 import { SocialProofToast } from "@/components/ui/SocialProofToast";
 import { VacancyProvider } from "@/components/ui/VacancyContext";
 import { LiveViewerBadge } from "@/components/ui/LiveViewerBadge";
+import { ExitIntentPopup } from "@/components/ui/ExitIntentPopup";
 
 export default function HomePage() {
   return (
@@ -70,6 +71,9 @@ export default function HomePage() {
 
       {/* Contador de espectadores ao vivo */}
       <LiveViewerBadge />
+
+      {/* Exit-intent — dispara ao mover cursor para fora pelo topo */}
+      <ExitIntentPopup />
 
       {/* Popup promocional — aparece após 4 segundos */}
       <PromoPopup

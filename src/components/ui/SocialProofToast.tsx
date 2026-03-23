@@ -34,7 +34,7 @@ function pickRandom<T>(arr: T[], exclude?: T): T {
 }
 
 export function SocialProofToast() {
-  const { decrement } = useVacancy();
+  const { increment } = useVacancy();
   const [current, setCurrent] = useState<(typeof NOTIFICATIONS)[0] | null>(null);
   const [minutesAgo, setMinutesAgo] = useState(1);
   const [visible, setVisible] = useState(false);
@@ -52,8 +52,8 @@ export function SocialProofToast() {
     setCurrent(item);
     setVisible(true);
 
-    // Decrementa a barra de vagas ao "confirmar" entrada
-    decrement();
+    // Incrementa vagas preenchidas → restantes diminuem
+    increment();
 
     const hide = setTimeout(() => {
       setVisible(false);

@@ -18,23 +18,23 @@ export const VACANCY_TOTAL = TOTAL;
 
 interface VacancyCtx {
   filled: number;
-  decrement: () => void;
+  increment: () => void;
 }
 
 const VacancyContext = createContext<VacancyCtx>({
   filled: 29,
-  decrement: () => {},
+  increment: () => {},
 });
 
 export function VacancyProvider({ children }: { children: ReactNode }) {
   const [filled, setFilled] = useState<number>(calcFilled);
 
-  function decrement() {
-    setFilled((prev) => Math.max(prev - 1, 20));
+  function increment() {
+    setFilled((prev) => Math.min(prev + 1, 48));
   }
 
   return (
-    <VacancyContext.Provider value={{ filled, decrement }}>
+    <VacancyContext.Provider value={{ filled, increment }}>
       {children}
     </VacancyContext.Provider>
   );

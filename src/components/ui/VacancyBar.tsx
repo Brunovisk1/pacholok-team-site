@@ -19,7 +19,7 @@ export function VacancyBar() {
         <span className="text-xs font-bold text-white/40">
           {filled}{" "}
           <span className="font-normal text-white/25">
-            de {VACANCY_TOTAL} preenchidas
+            de {VACANCY_TOTAL} preenchidas hoje
           </span>
         </span>
       </div>

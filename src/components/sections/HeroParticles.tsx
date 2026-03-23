@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react";
 
+const GOLD = { r: 201, g: 168, b: 76 };
+
 interface Particle {
   x: number;
   y: number;
@@ -9,107 +11,164 @@ interface Particle {
   vy: number;
   radius: number;
   alpha: number;
-  alphaDir: number;
+  trail: { x: number; y: number }[];
+}
+
+interface Orb {
+  x: number;
+  y: number;
+  baseX: number;
+  baseY: number;
+  radius: number;
+  alpha: number;
+  phase: number;
+  speed: number;
 }
 
 export function HeroParticles() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mouse = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     let animId: number;
-    const GOLD = { r: 201, g: 168, b: 76 };
-    const PARTICLE_COUNT = 55;
+    const TRAIL_LEN = 14;
+    const PARTICLE_COUNT = 80;
 
+    // ── Atmospheric orbs ──────────────────────────────────────
+    const orbs: Orb[] = [
+      { x: 0, y: 0, baseX: 0.72, baseY: 0.18, radius: 320, alpha: 0.13, phase: 0, speed: 0.0007 },
+      { x: 0, y: 0, baseX: 0.15, baseY: 0.75, radius: 260, alpha: 0.09, phase: 2.1, speed: 0.0009 },
+      { x: 0, y: 0, baseX: 0.5,  baseY: 0.45, radius: 180, alpha: 0.06, phase: 4.3, speed: 0.0012 },
+    ];
+
+    // ── Particles ─────────────────────────────────────────────
     const particles: Particle[] = [];
 
-    function resize() {
-      if (!canvas) return;
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    }
-
-    function spawn(): Particle {
-      const w = canvas!.width;
-      const h = canvas!.height;
+    function spawnParticle(w: number, h: number): Particle {
       return {
         x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: -(Math.random() * 0.4 + 0.1),
-        radius: Math.random() * 1.8 + 0.4,
-        alpha: Math.random() * 0.4 + 0.05,
-        alphaDir: Math.random() > 0.5 ? 1 : -1,
+        y: h + 10,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: -(Math.random() * 0.8 + 0.3),
+        radius: Math.random() * 2.2 + 0.6,
+        alpha: Math.random() * 0.55 + 0.15,
+        trail: [],
       };
     }
 
+    function resize() {
+      canvas!.width = canvas!.offsetWidth;
+      canvas!.height = canvas!.offsetHeight;
+    }
+
     resize();
-    for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(spawn());
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const p = spawnParticle(canvas.width, canvas.height);
+      p.y = Math.random() * canvas.height; // scatter on first frame
+      particles.push(p);
+    }
 
-    const LINE_DIST = 130;
+    function drawOrbs(t: number) {
+      const w = canvas!.width;
+      const h = canvas!.height;
+      const mx = mouse.current.x / w - 0.5;
+      const my = mouse.current.y / h - 0.5;
 
-    function draw() {
-      if (!canvas || !ctx) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (const orb of orbs) {
+        orb.phase += orb.speed;
+        const pulse = Math.sin(orb.phase) * 0.3 + 1;          // 0.7–1.3× size
+        const alphaP = orb.alpha * (Math.sin(orb.phase * 1.3) * 0.25 + 1);
 
-      // Update + draw particles
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
+        // Drift slowly + subtle parallax toward mouse
+        orb.x = orb.baseX * w + Math.sin(orb.phase * 0.7) * 40 + mx * 28;
+        orb.y = orb.baseY * h + Math.cos(orb.phase * 0.5) * 30 + my * 18;
+
+        const grad = ctx!.createRadialGradient(
+          orb.x, orb.y, 0,
+          orb.x, orb.y, orb.radius * pulse
+        );
+        grad.addColorStop(0,   `rgba(${GOLD.r},${GOLD.g},${GOLD.b},${alphaP})`);
+        grad.addColorStop(0.5, `rgba(${GOLD.r},${GOLD.g},${GOLD.b},${alphaP * 0.3})`);
+        grad.addColorStop(1,   `rgba(${GOLD.r},${GOLD.g},${GOLD.b},0)`);
+
+        ctx!.beginPath();
+        ctx!.arc(orb.x, orb.y, orb.radius * pulse, 0, Math.PI * 2);
+        ctx!.fillStyle = grad;
+        ctx!.fill();
+      }
+    }
+
+    function drawParticles() {
+      const w = canvas!.width;
+      const h = canvas!.height;
+
+      for (const p of particles) {
+        // Update trail
+        p.trail.push({ x: p.x, y: p.y });
+        if (p.trail.length > TRAIL_LEN) p.trail.shift();
+
         p.x += p.vx;
         p.y += p.vy;
-        p.alpha += p.alphaDir * 0.004;
-        if (p.alpha >= 0.45 || p.alpha <= 0.04) p.alphaDir *= -1;
 
-        // Reset when off-screen
-        if (p.y < -10 || p.x < -20 || p.x > canvas.width + 20) {
-          Object.assign(p, spawn());
-          p.y = canvas.height + 5;
+        if (p.y < -20 || p.x < -30 || p.x > w + 30) {
+          Object.assign(p, spawnParticle(w, h));
+          p.trail = [];
         }
 
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${GOLD.r},${GOLD.g},${GOLD.b},${p.alpha})`;
-        ctx.fill();
-      }
-
-      // Draw connecting lines between close particles
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const a = particles[i];
-          const b = particles[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < LINE_DIST) {
-            const lineAlpha = ((1 - dist / LINE_DIST) * 0.12);
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `rgba(${GOLD.r},${GOLD.g},${GOLD.b},${lineAlpha})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
+        // Draw trail
+        for (let i = 1; i < p.trail.length; i++) {
+          const t = i / p.trail.length;
+          ctx!.beginPath();
+          ctx!.moveTo(p.trail[i - 1].x, p.trail[i - 1].y);
+          ctx!.lineTo(p.trail[i].x, p.trail[i].y);
+          ctx!.strokeStyle = `rgba(${GOLD.r},${GOLD.g},${GOLD.b},${t * p.alpha * 0.6})`;
+          ctx!.lineWidth = p.radius * t;
+          ctx!.stroke();
         }
-      }
 
+        // Draw particle
+        ctx!.beginPath();
+        ctx!.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx!.fillStyle = `rgba(${GOLD.r},${GOLD.g},${GOLD.b},${p.alpha})`;
+        ctx!.fill();
+
+        // Glow
+        ctx!.beginPath();
+        ctx!.arc(p.x, p.y, p.radius * 2.5, 0, Math.PI * 2);
+        ctx!.fillStyle = `rgba(${GOLD.r},${GOLD.g},${GOLD.b},${p.alpha * 0.12})`;
+        ctx!.fill();
+      }
+    }
+
+    let t = 0;
+    function draw() {
+      ctx!.clearRect(0, 0, canvas!.width, canvas!.height);
+      drawOrbs(t);
+      drawParticles();
+      t++;
       animId = requestAnimationFrame(draw);
     }
 
     draw();
 
-    const ro = new ResizeObserver(() => {
-      resize();
-    });
+    const onMouseMove = (e: MouseEvent) => {
+      const rect = canvas!.getBoundingClientRect();
+      mouse.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    };
+
+    const ro = new ResizeObserver(resize);
     ro.observe(canvas);
+    window.addEventListener("mousemove", onMouseMove);
 
     return () => {
       cancelAnimationFrame(animId);
       ro.disconnect();
+      window.removeEventListener("mousemove", onMouseMove);
     };
   }, []);
 

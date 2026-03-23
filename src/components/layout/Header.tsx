@@ -9,10 +9,15 @@ import { cn } from "@/lib/cn";
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [progress, setProgress] = useState(0);
   const nav = siteConfig.navigation;
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 20);
+    const handler = () => {
+      setScrolled(window.scrollY > 20);
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(total > 0 ? (window.scrollY / total) * 100 : 0);
+    };
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
@@ -98,6 +103,15 @@ export function Header() {
         >
           {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
+      </div>
+
+      {/* Scroll progress bar */}
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-transparent overflow-hidden">
+        <div
+          className="h-full bg-gradient-to-r from-gold-500/60 via-gold-500 to-gold-500/60 transition-[width] duration-75 ease-out"
+          style={{ width: `${progress}%` }}
+          aria-hidden="true"
+        />
       </div>
 
       {/* Mobile menu */}

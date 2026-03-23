@@ -13,6 +13,7 @@ import {
 import { captureUTM } from "@/lib/utm";
 import { cn } from "@/lib/cn";
 import { useScrollAnimate } from "@/hooks/useScrollAnimate";
+import { VacancyBar } from "@/components/ui/VacancyBar";
 
 export function Plans() {
   const [hoveredPlan, setHoveredPlan] = useState<string | null>(null);
@@ -78,6 +79,9 @@ export function Plans() {
             acumulado. Todos os planos entregam protocolos 100% personalizados.
           </p>
         </div>
+
+        {/* Barra de vagas */}
+        <VacancyBar />
 
         {/* Plans grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-3">

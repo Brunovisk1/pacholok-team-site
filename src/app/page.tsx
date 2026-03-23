@@ -9,6 +9,7 @@ import { TeamMethod } from "@/components/sections/TeamMethod";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { FAQ } from "@/components/sections/FAQ";
 import { FinalCTA } from "@/components/sections/FinalCTA";
+import { PromoPopup } from "@/components/ui/PromoPopup";
 
 export default function HomePage() {
   return (
@@ -60,6 +61,16 @@ export default function HomePage() {
         <FinalCTA />
       </main>
       <Footer />
+
+      {/* Popup promocional — aparece após 4 segundos */}
+      <PromoPopup
+        delay={4000}
+        imageUrl="/assets/plans/olimpo.png"
+        headline="Oferta Especial por Tempo Limitado"
+        description="Garanta seu plano Olimpo com condições exclusivas. Vagas limitadas!"
+        ctaLabel="Quero Aproveitar"
+        ctaUrl="#planos"
+      />
     </>
   );
 }

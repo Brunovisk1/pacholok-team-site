@@ -1,18 +1,19 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { MessageCircle, AlertCircle, Globe } from "lucide-react";
+import { AlertCircle, Globe, ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { siteConfig } from "@/content/site";
-import { isValidPhone, isValidEmail, applyPhoneMask } from "@/lib/validation";
-import { captureUTM, UTMParams } from "@/lib/utm";
+import { isValidPhone, isValidEmail, applyPhoneMask, sanitizePhone } from "@/lib/validation";
 import {
-  buildWhatsAppMessage,
-  buildWhatsAppURL,
-  sendLeadToWebhook,
-} from "@/lib/whatsapp";
+  captureUTM,
+  captureFirstTouch,
+  buildTypeformUrl,
+  UTMParams,
+} from "@/lib/utm";
+import { siteConfig } from "@/content/site";
+import { useSelectedPlan } from "@/components/ui/SelectedPlanContext";
 
 interface FormState {
   name: string;
@@ -33,7 +34,9 @@ interface LeadGateProps {
   formRef?: React.RefObject<HTMLDivElement | null>;
 }
 
-export function LeadGate({ selectedPlan, formRef }: LeadGateProps) {
+export function LeadGate({ selectedPlan: selectedPlanProp, formRef }: LeadGateProps) {
+  const { planId: ctxPlanId, planName: ctxPlanName, clear: clearPlan } = useSelectedPlan();
+  const selectedPlan = selectedPlanProp || ctxPlanName || undefined;
   const [form, setForm] = useState<FormState>({
     name: "",
     whatsapp: "",
@@ -42,11 +45,16 @@ export function LeadGate({ selectedPlan, formRef }: LeadGateProps) {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [utm, setUtm] = useState<UTMParams>({});
+  const [firstTouch, setFirstTouch] = useState<UTMParams>({});
   const nameRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    // last-touch (sessão atual) + first-touch (origem, set-once em cookie 2 anos)
     setUtm(captureUTM());
+    setFirstTouch(captureFirstTouch());
   }, []);
 
   function validate(): FormErrors {
@@ -75,32 +83,39 @@ export function LeadGate({ selectedPlan, formRef }: LeadGateProps) {
     }
     setErrors({});
     setIsSubmitting(true);
+    setSubmitError(null);
 
-    const lead = {
-      name: form.name.trim(),
-      whatsapp: form.whatsapp.trim(),
-      email: form.email.trim(),
-      outsideBrazil: form.outsideBrazil as "sim" | "nao",
-      plan: selectedPlan,
-      page: "Pacholok Team — Landing Page",
+    // Monta a URL do Typeform já com identidade + UTMs (last-touch) + src (first-touch).
+    // O Typeform recebe tudo via hidden fields — o lead não redigita nome/email/telefone.
+    const redirectUrl = buildTypeformUrl(
+      siteConfig.typeformUrl,
+      {
+        name: form.name.trim(),
+        email: form.email.trim(),
+        phone: sanitizePhone(form.whatsapp),
+        outsideBrazil: form.outsideBrazil,
+      },
       utm,
-    };
+      firstTouch
+    );
 
-    if (siteConfig.flags.enableLeadWebhook) {
-      await sendLeadToWebhook(siteConfig.leadWebhookUrl, lead);
-    }
-
-    const message = buildWhatsAppMessage(lead);
-    const url = buildWhatsAppURL(siteConfig.contact.whatsappNumber, message);
-    window.open(url, "_blank", "noopener,noreferrer");
-
-    setIsSubmitting(false);
+    clearPlan();
+    // Redireciona na mesma aba — fluxo contínuo pro Typeform de qualificação.
+    window.location.href = redirectUrl;
   }
 
   function handlePhoneChange(e: React.ChangeEvent<HTMLInputElement>) {
     const raw = e.target.value;
     setForm((f) => ({ ...f, whatsapp: applyPhoneMask(raw) }));
     if (errors.whatsapp) setErrors((e) => ({ ...e, whatsapp: undefined }));
+  }
+
+  if (submitted) {
+    return (
+      <div ref={formRef}>
+        <SuccessState name={form.name} plan={selectedPlan} />
+      </div>
+    );
   }
 
   return (
@@ -122,7 +137,7 @@ export function LeadGate({ selectedPlan, formRef }: LeadGateProps) {
           Fale com a equipe
         </h2>
         <p className="mt-2 text-white/40 text-sm">
-          Preencha abaixo e nossa equipe abre a conversa no WhatsApp.
+          Preencha abaixo e nossa equipe entra em contato em até 24h.
         </p>
       </div>
 
@@ -236,7 +251,7 @@ export function LeadGate({ selectedPlan, formRef }: LeadGateProps) {
             <Globe size={16} className="text-gold-500 mt-0.5 shrink-0" />
             <p className="text-xs text-white/60 leading-relaxed">
               <span className="text-gold-500 font-medium">Atendimento internacional:</span>{" "}
-              confirme seu DDI e fuso horário no WhatsApp.
+              nossa equipe entra em contato confirmando seu fuso horário.
             </p>
           </div>
         )}
@@ -253,16 +268,62 @@ export function LeadGate({ selectedPlan, formRef }: LeadGateProps) {
         {/* Submit */}
         <Button
           type="submit"
-          variant="whatsapp"
+          variant="gold"
           size="lg"
           className="w-full mt-2 rounded-none"
           disabled={isSubmitting}
           aria-busy={isSubmitting}
         >
-          <MessageCircle size={18} />
-          {isSubmitting ? "Aguarde..." : "Falar com a equipe no WhatsApp"}
+          {isSubmitting ? "Enviando..." : "Enviar"}
+          {!isSubmitting && <ArrowRight size={18} />}
         </Button>
+
+        {submitError && (
+          <p
+            className="text-xs text-red-400 flex items-center gap-1 mt-2"
+            role="alert"
+          >
+            <AlertCircle size={12} /> {submitError}
+          </p>
+        )}
       </form>
+    </div>
+  );
+}
+
+function SuccessState({ name, plan }: { name: string; plan?: string }) {
+  const firstName = name.trim().split(/\s+/)[0] || name;
+  return (
+    <div
+      id="contato"
+      className="relative bg-[#0F0F0F] border border-gold-500/40 p-6 sm:p-10"
+      role="status"
+      aria-live="polite"
+    >
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gold-gradient" />
+      <div className="flex flex-col items-center text-center">
+        <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-gold-500/10 border border-gold-500/40">
+          <CheckCircle2 className="text-gold-500" size={32} />
+        </div>
+        <p className="text-gold-500 text-xs font-semibold tracking-[0.2em] uppercase mb-2">
+          Inscrição recebida
+        </p>
+        <h2 className="text-2xl md:text-3xl font-display font-bold text-white leading-tight mb-3">
+          Pronto, {firstName}!
+        </h2>
+        <p className="text-white/50 text-sm leading-relaxed max-w-sm">
+          Nossa equipe vai entrar em contato em até{" "}
+          <span className="text-white/80 font-medium">24h</span>
+          {plan ? (
+            <>
+              {" "}com detalhes do plano{" "}
+              <span className="text-gold-500 font-medium">{plan}</span>.
+            </>
+          ) : (
+            " com informações sobre a consultoria."
+          )}
+        </p>
+      </div>
     </div>
   );
 }

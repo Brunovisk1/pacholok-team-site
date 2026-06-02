@@ -6,20 +6,19 @@ import { Check, X, MessageCircle } from "lucide-react";
 import { animate, stagger } from "animejs";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/content/site";
-import {
-  buildWhatsAppMessage,
-  buildWhatsAppURL,
-} from "@/lib/whatsapp";
-import { captureUTM } from "@/lib/utm";
 import { cn } from "@/lib/cn";
 import { useScrollAnimate } from "@/hooks/useScrollAnimate";
 import { SweepLine } from "@/components/ui/SweepLine";
 import { VacancyBar } from "@/components/ui/VacancyBar";
 import { PlanQuiz } from "@/components/ui/PlanQuiz";
+import { useSelectedPlan, PlanId } from "@/components/ui/SelectedPlanContext";
+
+type Plan = (typeof siteConfig.plans)[number];
 
 export function Plans() {
   const [hoveredPlan, setHoveredPlan] = useState<string | null>(null);
   const [quizOpen, setQuizOpen] = useState(false);
+  const { select } = useSelectedPlan();
 
   const sectionRef = useScrollAnimate<HTMLElement>((el) => {
     // Header
@@ -42,23 +41,16 @@ export function Plans() {
     });
   });
 
-  const handlePlanCTA = (plan: (typeof siteConfig.plans)[number]) => {
-    const utm = captureUTM();
-    const message = buildWhatsAppMessage({
-      name: "Visitante",
-      whatsapp: "",
-      email: "",
-      outsideBrazil: "nao",
-      plan: plan.name,
-      page: "Pacholok Team — Planos",
-      utm,
-    });
-    const customMsg = plan.whatsappMessage + "\n\n📍 Pacholok Team — Landing Page";
-    const url = buildWhatsAppURL(
-      siteConfig.contact.whatsappNumber,
-      customMsg
-    );
-    window.open(url, "_blank", "noopener,noreferrer");
+  const handlePlanCTA = (plan: Plan) => {
+    select(plan.id as PlanId, plan.name);
+    const el = document.getElementById("contato");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(() => {
+        const firstInput = el.querySelector<HTMLInputElement>("input");
+        firstInput?.focus({ preventScroll: true });
+      }, 400);
+    }
   };
 
   return (
@@ -95,7 +87,7 @@ export function Plans() {
         <VacancyBar />
 
         {/* Plans grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-3">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-4 max-w-5xl mx-auto">
           {siteConfig.plans.map((plan) => (
             <article
               key={plan.id}
@@ -174,11 +166,6 @@ export function Plans() {
                     </span>
                     <span className="text-white/30 text-sm">{plan.period}</span>
                   </div>
-                  {"totalLabel" in plan && plan.totalLabel && (
-                    <p className="text-white/20 text-xs mt-1">
-                      {plan.totalLabel}
-                    </p>
-                  )}
                 </div>
 
                 {/* Divider */}
@@ -234,10 +221,17 @@ export function Plans() {
         {/* Quiz modal */}
         <PlanQuiz open={quizOpen} onClose={() => setQuizOpen(false)} />
 
-        {/* Footnote */}
-        <p className="mt-8 text-center text-white/20 text-xs">
-          Todos os planos incluem acesso ao aplicativo exclusivo e protocolos
-          100% personalizados. Dúvidas? Fale com a equipe antes de escolher.
+        {/* Tagline da oficial v2 */}
+        <p className="mt-10 text-center text-gold-500 text-sm md:text-base font-display tracking-wide">
+          As vagas não são vendidas. São concedidas.
+        </p>
+
+        {/* Footnote — disclaimer fiel à página oficial v2 */}
+        <p className="mt-5 text-center text-white/30 text-xs max-w-2xl mx-auto leading-relaxed">
+          <span className="text-gold-500">*</span> Atenção: clicar no botão não
+          debita nenhum valor do seu cartão. Ele direciona você para a ficha de
+          aplicação. O pagamento só será liberado após a aprovação da nossa
+          equipe e ficará sob sua responsabilidade fazê-lo.
         </p>
       </div>
     </section>

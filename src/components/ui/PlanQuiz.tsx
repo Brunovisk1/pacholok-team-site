@@ -7,7 +7,7 @@ import { siteConfig } from "@/content/site";
 import { buildWhatsAppURL } from "@/lib/whatsapp";
 
 // ─── Tipos ───────────────────────────────────────────────────
-type PlanId = "gladiador" | "espartano" | "centuriao" | "olimpo";
+type PlanId = "espartano" | "centuriao" | "olimpo";
 type Scores = Record<PlanId, number>;
 
 interface Option {
@@ -27,19 +27,19 @@ const QUESTIONS: Question[] = [
     options: [
       {
         label: "🔥 Secar e definir o corpo",
-        scores: { gladiador: 0, espartano: 2, centuriao: 1, olimpo: 0 },
+        scores: { espartano: 2, centuriao: 1, olimpo: 0 },
       },
       {
         label: "💪 Ganhar massa muscular",
-        scores: { gladiador: 1, espartano: 2, centuriao: 1, olimpo: 0 },
+        scores: { espartano: 2, centuriao: 1, olimpo: 0 },
       },
       {
         label: "⚡ Melhorar performance e força",
-        scores: { gladiador: 0, espartano: 1, centuriao: 2, olimpo: 1 },
+        scores: { espartano: 1, centuriao: 2, olimpo: 1 },
       },
       {
         label: "🏆 Transformação completa de vida",
-        scores: { gladiador: 0, espartano: 0, centuriao: 2, olimpo: 2 },
+        scores: { espartano: 0, centuriao: 2, olimpo: 2 },
       },
     ],
   },
@@ -48,19 +48,19 @@ const QUESTIONS: Question[] = [
     options: [
       {
         label: "Sou iniciante (menos de 1 ano)",
-        scores: { gladiador: 2, espartano: 1, centuriao: 0, olimpo: 0 },
+        scores: { espartano: 2, centuriao: 1, olimpo: 0 },
       },
       {
         label: "Intermediário (1 a 3 anos)",
-        scores: { gladiador: 1, espartano: 2, centuriao: 1, olimpo: 0 },
+        scores: { espartano: 2, centuriao: 2, olimpo: 1 },
       },
       {
         label: "Avançado (mais de 3 anos)",
-        scores: { gladiador: 0, espartano: 1, centuriao: 2, olimpo: 2 },
+        scores: { espartano: 1, centuriao: 2, olimpo: 2 },
       },
       {
         label: "Treinei antes, mas parei por um tempo",
-        scores: { gladiador: 1, espartano: 2, centuriao: 1, olimpo: 0 },
+        scores: { espartano: 2, centuriao: 1, olimpo: 0 },
       },
     ],
   },
@@ -68,20 +68,16 @@ const QUESTIONS: Question[] = [
     question: "Qual é o seu nível de comprometimento?",
     options: [
       {
-        label: "Quero testar o método primeiro",
-        scores: { gladiador: 3, espartano: 0, centuriao: 0, olimpo: 0 },
-      },
-      {
         label: "Consigo me comprometer por 3 meses",
-        scores: { gladiador: 0, espartano: 3, centuriao: 0, olimpo: 0 },
+        scores: { espartano: 3, centuriao: 0, olimpo: 0 },
       },
       {
         label: "Resultado real exige pelo menos 6 meses",
-        scores: { gladiador: 0, espartano: 0, centuriao: 3, olimpo: 0 },
+        scores: { espartano: 0, centuriao: 3, olimpo: 0 },
       },
       {
         label: "Comprometimento total — quero o melhor custo-benefício",
-        scores: { gladiador: 0, espartano: 0, centuriao: 1, olimpo: 3 },
+        scores: { espartano: 0, centuriao: 1, olimpo: 3 },
       },
     ],
   },
@@ -89,25 +85,20 @@ const QUESTIONS: Question[] = [
 
 // ─── Dados dos planos para resultado ────────────────────────
 const PLAN_DATA: Record<PlanId, { icon: string; color: string; pitch: string }> = {
-  gladiador: {
-    icon: "/assets/plans/gladiador.svg",
-    color: "text-white",
-    pitch: "Entrada sem compromisso longo. Você começa a sentir o método e vê o resultado antes de decidir ir mais fundo.",
-  },
   espartano: {
     icon: "/assets/plans/espartano.svg",
     color: "text-sky-400",
-    pitch: "Três meses é o mínimo para ver transformação real. Você já tem base suficiente para evoluir com consistência.",
+    pitch: "Três meses é o mínimo para começar a ver transformação real com consistência.",
   },
   centuriao: {
     icon: "/assets/plans/centuriao.svg",
     color: "text-amber-400",
-    pitch: "Melhor custo-benefício da linha. Seis meses com protocolo completo, hormonal incluso e acesso às competições.",
+    pitch: "Seis meses no método — duração ideal pra consolidar resultado e ainda economizar em relação ao trimestral.",
   },
   olimpo: {
     icon: "/assets/plans/olimpo.svg",
     color: "text-amber-300",
-    pitch: "Você entende que resultado de verdade é construído ao longo de um ano. O topo da experiência Pacholok Team.",
+    pitch: "Doze meses de método. O maior desconto da linha pra quem entende que resultado de verdade leva tempo.",
   },
 };
 
@@ -123,20 +114,16 @@ interface PlanQuizProps {
   onClose: () => void;
 }
 
+const EMPTY_SCORES: Scores = { espartano: 0, centuriao: 0, olimpo: 0 };
+
 export function PlanQuiz({ open, onClose }: PlanQuizProps) {
   const [step, setStep] = useState(0); // 0..2 = perguntas, 3 = resultado
-  const [scores, setScores] = useState<Scores>({
-    gladiador: 0,
-    espartano: 0,
-    centuriao: 0,
-    olimpo: 0,
-  });
+  const [scores, setScores] = useState<Scores>(EMPTY_SCORES);
 
   if (!open) return null;
 
   function handleOption(option: Option) {
     const next: Scores = {
-      gladiador: scores.gladiador + option.scores.gladiador,
       espartano: scores.espartano + option.scores.espartano,
       centuriao: scores.centuriao + option.scores.centuriao,
       olimpo: scores.olimpo + option.scores.olimpo,
@@ -156,7 +143,7 @@ export function PlanQuiz({ open, onClose }: PlanQuizProps) {
 
   function handleClose() {
     setStep(0);
-    setScores({ gladiador: 0, espartano: 0, centuriao: 0, olimpo: 0 });
+    setScores(EMPTY_SCORES);
     onClose();
   }
 

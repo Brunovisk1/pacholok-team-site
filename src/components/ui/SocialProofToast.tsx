@@ -5,25 +5,24 @@ import { useVacancy } from "./VacancyContext";
 
 const NOTIFICATIONS = [
   { name: "João V.", city: "São Paulo, SP", plan: "Olimpo" },
-  { name: "Rafael M.", city: "Curitiba, PR", plan: "Gladiador" },
+  { name: "Rafael M.", city: "Curitiba, PR", plan: "Centurião" },
   { name: "Lucas T.", city: "Belo Horizonte, MG", plan: "Olimpo" },
   { name: "Thiago S.", city: "Rio de Janeiro, RJ", plan: "Espartano" },
   { name: "Bruno A.", city: "Porto Alegre, RS", plan: "Olimpo" },
-  { name: "Gabriel F.", city: "Florianópolis, SC", plan: "Gladiador" },
+  { name: "Gabriel F.", city: "Florianópolis, SC", plan: "Espartano" },
   { name: "Mateus R.", city: "Brasília, DF", plan: "Centurião" },
   { name: "Pedro H.", city: "Salvador, BA", plan: "Olimpo" },
-  { name: "André L.", city: "Fortaleza, CE", plan: "Gladiador" },
+  { name: "André L.", city: "Fortaleza, CE", plan: "Centurião" },
   { name: "Felipe C.", city: "Recife, PE", plan: "Espartano" },
   { name: "Diego N.", city: "Goiânia, GO", plan: "Olimpo" },
   { name: "Vitor M.", city: "Manaus, AM", plan: "Centurião" },
-  { name: "Rodrigo B.", city: "Campinas, SP", plan: "Gladiador" },
+  { name: "Rodrigo B.", city: "Campinas, SP", plan: "Espartano" },
   { name: "Eduardo P.", city: "Santos, SP", plan: "Olimpo" },
   { name: "Caio L.", city: "Londrina, PR", plan: "Espartano" },
 ];
 
 const PLAN_COLORS: Record<string, string> = {
   Olimpo: "text-amber-400",
-  Gladiador: "text-sky-400",
   Espartano: "text-emerald-400",
   Centurião: "text-rose-400",
 };

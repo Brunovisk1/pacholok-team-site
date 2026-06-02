@@ -12,6 +12,7 @@ import { FinalCTA } from "@/components/sections/FinalCTA";
 import { PromoPopup } from "@/components/ui/PromoPopup";
 import { SocialProofToast } from "@/components/ui/SocialProofToast";
 import { VacancyProvider } from "@/components/ui/VacancyContext";
+import { SelectedPlanProvider } from "@/components/ui/SelectedPlanContext";
 import { LiveViewerBadge } from "@/components/ui/LiveViewerBadge";
 import { ExitIntentPopup } from "@/components/ui/ExitIntentPopup";
 import { WhatsAppBubble } from "@/components/ui/WhatsAppBubble";
@@ -19,6 +20,7 @@ import { WhatsAppBubble } from "@/components/ui/WhatsAppBubble";
 export default function HomePage() {
   return (
     <VacancyProvider>
+      <SelectedPlanProvider>
       <Header />
       <main id="main-content">
         {/* (1) Hero + Lead Gate */}
@@ -88,6 +90,7 @@ export default function HomePage() {
         ctaLabel="Quero Aproveitar"
         ctaUrl="#planos"
       />
+      </SelectedPlanProvider>
     </VacancyProvider>
   );
 }

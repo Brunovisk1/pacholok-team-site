@@ -58,61 +58,35 @@ export const siteConfig = {
   directPurchaseUrl: "https://checkout.placeholder.com/pacholok-team",
 
   // ----------------------------------------------------------
-  // PLANOS
+  // TYPEFORM — destino do form da landing (teste V3-Bruno).
+  // O submit do LeadGate redireciona pra cá com hidden fields:
+  // name/email/phone/outside_brazil + UTMs (last-touch) + src (first-touch).
+  // ----------------------------------------------------------
+  typeformUrl: "https://form.typeform.com/to/yTkifQ5j",
+
+  // ----------------------------------------------------------
+  // PLANOS — espelhados da página oficial pacholokacademy.com.br/pacholok-team-v2
+  // Features variam levemente entre planos (ver v2). Preço só mensal — sem "à vista".
   // ----------------------------------------------------------
   plans: [
-    {
-      id: "gladiador",
-      name: "Gladiador",
-      subtitle: "Mensal",
-      icon: "/assets/plans/gladiador.svg",
-      price: 599,
-      priceLabel: "R$ 599",
-      period: "/mês",
-      highlight: false,
-      badge: null,
-      description:
-        "A porta de entrada para o método Pacholok. Compromisso mensal, entrega imediata.",
-      features: [
-        { text: "Treino 100% personalizado via app", included: true },
-        { text: "Dieta ajustada aos seus objetivos", included: true },
-        { text: "Acesso ao aplicativo exclusivo", included: true },
-        { text: "Vídeos de execução dos exercícios", included: true },
-        { text: "Suporte por WhatsApp", included: true },
-        { text: "Check-in mensal de progresso", included: true },
-        { text: "Guia de suplementação", included: false },
-        { text: "Grupos nichados (Cutting / Bulking)", included: false },
-        { text: "Orientação hormonal", included: false },
-        { text: "Participação em competições e sorteios", included: false },
-      ],
-      ctaText: "Quero ser Gladiador",
-      whatsappMessage:
-        "Olá! Vim pelo site e tenho interesse no plano *Gladiador* (Mensal). Pode me dar mais informações?",
-    },
     {
       id: "espartano",
       name: "Espartano",
       subtitle: "Trimestral",
       icon: "/assets/plans/espartano.svg",
-      price: 399,
-      priceLabel: "R$ 399",
+      price: 299.05,
+      priceLabel: "R$ 299,05",
       period: "/mês",
-      totalLabel: "R$ 1.197 no trimestre",
       highlight: false,
-      badge: "Mais popular",
-      description:
-        "Três meses de metodologia Espartana. Disciplina contínua, resultados consistentes.",
+      badge: null,
+      description: "Três meses de método Pacholok.",
       features: [
-        { text: "Treino 100% personalizado via app", included: true },
-        { text: "Dieta ajustada aos seus objetivos", included: true },
-        { text: "Acesso ao aplicativo exclusivo", included: true },
+        { text: "Treino 100% personalizado", included: true },
+        { text: "Dieta 100% ajustada à sua rotina, contexto e objetivo", included: true },
+        { text: "Acesso completo ao app exclusivo da Consultoria", included: true },
         { text: "Vídeos de execução dos exercícios", included: true },
-        { text: "Suporte por WhatsApp", included: true },
+        { text: "Acesso direto ao treinador para tirar dúvidas", included: true },
         { text: "Check-ins semanais de progresso", included: true },
-        { text: "Guia de suplementação", included: true },
-        { text: "Grupos nichados (Cutting / Bulking)", included: true },
-        { text: "Orientação hormonal", included: false },
-        { text: "Participação em competições e sorteios", included: false },
       ],
       ctaText: "Quero ser Espartano",
       whatsappMessage:
@@ -123,25 +97,19 @@ export const siteConfig = {
       name: "Centurião",
       subtitle: "Semestral",
       icon: "/assets/plans/centuriao.svg",
-      price: 299,
-      priceLabel: "R$ 299",
+      price: 279.35,
+      priceLabel: "R$ 279,35",
       period: "/mês",
-      totalLabel: "R$ 1.794 no semestre",
       highlight: true,
-      badge: "Melhor custo-benefício",
-      description:
-        "Seis meses com o método completo. Quem chega até aqui, transforma de verdade.",
+      badge: null,
+      description: "Seis meses de método Pacholok.",
       features: [
-        { text: "Treino 100% personalizado via app", included: true },
-        { text: "Dieta ajustada aos seus objetivos", included: true },
-        { text: "Acesso ao aplicativo exclusivo", included: true },
+        { text: "Treino 100% personalizado", included: true },
+        { text: "Dieta 100% ajustada à sua rotina, contexto e objetivo", included: true },
+        { text: "Acesso completo ao app exclusivo da Consultoria", included: true },
         { text: "Vídeos de execução dos exercícios", included: true },
-        { text: "Suporte prioritário por WhatsApp", included: true },
+        { text: "Acesso direto ao treinador para tirar dúvidas", included: true },
         { text: "Check-ins semanais de progresso", included: true },
-        { text: "Guia de suplementação", included: true },
-        { text: "Grupos nichados (Cutting / Bulking)", included: true },
-        { text: "Orientação hormonal", included: true },
-        { text: "Participação em competições e sorteios", included: true },
       ],
       ctaText: "Quero ser Centurião",
       whatsappMessage:
@@ -149,37 +117,27 @@ export const siteConfig = {
     },
     {
       id: "olimpo",
-      name: "Olímpo",
+      name: "Olimpo",
       subtitle: "Anual",
       icon: "/assets/plans/olimpo.svg",
-      price: 199,
-      priceLabel: "R$ 199",
+      price: 246.97,
+      priceLabel: "R$ 246,97",
       period: "/mês",
-      totalLabel: "R$ 2.388 no ano",
       highlight: false,
-      badge: "Maior economia",
-      description:
-        "O topo. Para quem sabe que resultados reais exigem compromisso real.",
+      badge: null,
+      description: "Doze meses de método Pacholok.",
       features: [
-        { text: "Treino 100% personalizado via app", included: true },
-        { text: "Dieta ajustada aos seus objetivos", included: true },
-        { text: "Acesso ao aplicativo exclusivo", included: true },
+        { text: "Treino 100% personalizado", included: true },
+        { text: "Dieta 100% ajustada à sua rotina, contexto e objetivo", included: true },
+        { text: "Acesso completo ao app exclusivo da Consultoria", included: true },
         { text: "Vídeos de execução dos exercícios", included: true },
-        { text: "Suporte VIP por WhatsApp", included: true },
+        { text: "Acesso direto ao treinador para tirar dúvidas", included: true },
         { text: "Check-ins semanais de progresso", included: true },
-        { text: "Guia de suplementação", included: true },
-        { text: "Grupos nichados (Cutting / Bulking)", included: true },
-        { text: "Orientação hormonal", included: true },
-        { text: "Participação em competições e sorteios", included: true },
-        {
-          text: "Cupons exclusivos com parceiros",
-          included: true,
-        },
-        { text: "Programa de indicações (mais chances no sorteio)", included: true },
+        { text: "Sorteios de kits de suplementação, roupas e acessórios fitness", included: true },
       ],
-      ctaText: "Quero alcançar o Olímpo",
+      ctaText: "Quero ser Olimpo",
       whatsappMessage:
-        "Olá! Vim pelo site e tenho interesse no plano *Olímpo* (Anual). Pode me dar mais informações?",
+        "Olá! Vim pelo site e tenho interesse no plano *Olimpo* (Anual). Pode me dar mais informações?",
     },
   ],
 
@@ -225,56 +183,50 @@ export const siteConfig = {
   ],
 
   // ----------------------------------------------------------
-  // O QUE VOCÊ RECEBE
+  // O QUE VOCÊ RECEBE — espelho dos 9 benefícios oficiais
   // ----------------------------------------------------------
   deliverables: [
     {
       icon: "Dumbbell",
-      title: "Treino personalizado",
+      title: "Treino 100% personalizado",
       description:
-        "Montado com base na sua anamnese, seus equipamentos disponíveis e seu histórico de treinamento. Nenhum protocolo é igual ao outro.",
+        "Montado com base na sua anamnese, seu histórico, seus equipamentos disponíveis e seu objetivo. Nenhum protocolo sai igual ao anterior.",
     },
     {
       icon: "Salad",
-      title: "Dieta ajustada",
+      title: "Dieta 100% ajustada",
       description:
-        "Macros e refeições calibrados para seus objetivos e estilo de vida. Sem dietas da moda, sem cortes drásticos sem propósito.",
-    },
-    {
-      icon: "Pill",
-      title: "Suplementação",
-      description:
-        "Orientação sobre quais suplementos fazem sentido para você, sem empurrar produto sem necessidade.",
+        "Macros e refeições calibrados pra sua rotina, contexto e objetivo. Sem dietas da moda, sem cortes drásticos sem propósito.",
     },
     {
       icon: "Smartphone",
-      title: "Aplicativo exclusivo",
+      title: "App exclusivo da Consultoria",
       description:
-        "Seu protocolo no seu bolso: treino com vídeos de execução, dieta para ticar, registro de sono e conteúdo exclusivo do Pacho.",
+        "Treino, dieta e seu protocolo completo num único lugar. Sem planilhas improvisadas, sem PDF desatualizado.",
     },
     {
-      icon: "Users",
-      title: "Comunidade ativa",
+      icon: "PlayCircle",
+      title: "Vídeos de execução",
       description:
-        "Grupo no WhatsApp com alunos de perfil similar (Cutting / Bulking). Stories, fotos, engajamento real com pessoas no mesmo processo que você.",
+        "Cada exercício do seu treino vem com vídeo demonstrando a execução correta. Você nunca fica na dúvida de como fazer.",
+    },
+    {
+      icon: "MessageCircle",
+      title: "Acesso direto ao treinador",
+      description:
+        "Canal aberto pra tirar dúvidas sobre o protocolo. Quem responde é a pessoa que conhece seu plano — não bot, não atendente.",
     },
     {
       icon: "TrendingUp",
-      title: "Check-ins de progresso",
+      title: "Check-ins semanais",
       description:
-        "Avaliações periódicas com ajustes no protocolo conforme sua evolução. Acompanhamento real, não automático.",
+        "Avaliações de progresso toda semana com ajustes no protocolo conforme sua evolução. Acompanhamento real, não automático.",
     },
     {
-      icon: "Trophy",
-      title: "Competições e sorteios",
+      icon: "Gift",
+      title: "Sorteios pra alunos do Olimpo",
       description:
-        "Prêmios reais: iPhones, anuidade de academia paga, viagens. Para quem está dentro do processo.",
-    },
-    {
-      icon: "Tag",
-      title: "Benefícios com parceiros",
-      description:
-        "Cupons e descontos em suplementação e produtos de qualidade. Só para alunos ativos.",
+        "Kits de suplementação, roupas e outros acessórios fitness sorteados pra alunos do plano anual.",
     },
   ],
 
@@ -371,7 +323,7 @@ export const siteConfig = {
     {
       question: "Posso cancelar a qualquer momento?",
       answer:
-        "Os planos têm períodos mínimos de contrato (mensal, trimestral, semestral, anual). A política de cancelamento e reembolso é detalhada no contrato e pode ser esclarecida com a equipe antes da sua inscrição.",
+        "Os planos têm períodos mínimos de contrato (trimestral, semestral ou anual). A política de cancelamento e reembolso é detalhada no contrato e pode ser esclarecida com a equipe antes da sua inscrição.",
     },
     {
       question: "Atende quem mora fora do Brasil?",
@@ -391,27 +343,12 @@ export const siteConfig = {
     {
       question: "O suporte acontece de que forma?",
       answer:
-        "Via WhatsApp. Há grupos nichados por objetivo (Cutting / Bulking) e suporte direto com a equipe para dúvidas sobre o protocolo. O tempo de resposta e SLA são informados no onboarding.",
-    },
-    {
-      question: "A orientação inclui suplementação e hormônios?",
-      answer:
-        "Suplementação está incluída a partir do plano Espartano. Orientação hormonal está disponível a partir do plano Centurião. Esses tópicos são tratados com responsabilidade e seriedade — sem indicação irresponsável.",
+        "Você tem acesso direto ao treinador para tirar dúvidas sobre o protocolo, além de check-ins semanais de progresso. Mensalmente há também o plantão de dúvidas com o próprio Fabrício Pacholok.",
     },
     {
       question: "O que acontece no check-in?",
       answer:
         "Você apresenta dados de progresso (fotos, medidas, performance) e a equipe avalia se o protocolo precisa de ajuste. Não é só confirmação de que você está 'seguindo' — é uma análise real para otimizar sua evolução.",
-    },
-    {
-      question: "Posso participar das competições e sorteios no plano Mensal?",
-      answer:
-        "As competições e sorteios estão disponíveis a partir do plano Centurião (semestral). Os prêmios incluem iPhones, anuidade de academia paga e viagens — para quem está comprometido com o processo.",
-    },
-    {
-      question: "Como funciona o programa de indicações?",
-      answer:
-        "Alunos ativos que indicam novos membros recebem descontos na renovação e mais chances nos sorteios mensais. Os detalhes são fornecidos após a entrada no time.",
     },
     {
       question: "Por que vocês não mostram o protocolo antes de eu me inscrever?",

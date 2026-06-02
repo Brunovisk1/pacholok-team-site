@@ -2,14 +2,14 @@
 
 import { useRef, useState, useCallback } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Dumbbell, Salad, Pill, Smartphone, Users, TrendingUp, Trophy, Tag } from "lucide-react";
+import { ChevronLeft, ChevronRight, Dumbbell, Salad, Smartphone, PlayCircle, MessageCircle, TrendingUp, Gift } from "lucide-react";
 import { animate, stagger } from "animejs";
 import { useScrollAnimate } from "@/hooks/useScrollAnimate";
 import { SweepLine } from "@/components/ui/SweepLine";
 import { siteConfig } from "@/content/site";
 
 const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
-  Dumbbell, Salad, Pill, Smartphone, Users, TrendingUp, Trophy, Tag,
+  Dumbbell, Salad, Smartphone, PlayCircle, MessageCircle, TrendingUp, Gift,
 };
 
 const ITEM_WIDTH = 260; // px per slide

@@ -1,4 +1,4 @@
-import { UTMParams, appendUTMToMessage } from "./utm";
+import { UTMParams } from "./utm";
 import { sanitizePhone } from "./validation";
 
 export interface LeadData {
@@ -16,25 +16,16 @@ export interface LeadData {
  */
 export function buildWhatsAppMessage(lead: LeadData): string {
   const isInternational = lead.outsideBrazil === "sim";
+  const firstName = lead.name.trim().split(/\s+/)[0] || lead.name;
 
-  let msg = `Olá, equipe Pacholok Team! 👋\n\n`;
-  msg += `*Nome:* ${lead.name}\n`;
-  msg += `*WhatsApp:* ${lead.whatsapp}\n`;
-  msg += `*E-mail:* ${lead.email}\n`;
-  msg += `*Mora fora do Brasil:* ${isInternational ? "Sim" : "Não"}\n`;
+  const subject = lead.plan
+    ? `o plano ${lead.plan}`
+    : "a consultoria";
+
+  let msg = `Oi! Sou o ${firstName}, vim do site da Pacholok Team e quero saber mais sobre ${subject}.`;
 
   if (isInternational) {
-    msg += `*País / Cidade e fuso horário:* ____\n`;
-  }
-
-  if (lead.plan) {
-    msg += `*Plano de interesse:* ${lead.plan}\n`;
-  }
-
-  msg += `\n📍 Origem: ${lead.page ?? "Pacholok Team — Landing Page"}\n`;
-
-  if (lead.utm && Object.keys(lead.utm).length > 0) {
-    msg = appendUTMToMessage(msg, lead.utm);
+    msg += `\n\nMoro fora do Brasil — meu fuso é ___`;
   }
 
   return msg;

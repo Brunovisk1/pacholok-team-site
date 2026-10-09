@@ -245,6 +245,7 @@ export function PlanQuiz({ open, onClose }: PlanQuizProps) {
               </p>
 
               {/* Preço */}
+              {siteConfig.showPrices && (
               <div className="mt-5 mb-6 flex items-baseline justify-center gap-1">
                 <span className="text-white/30 text-sm">por</span>
                 <span className={`text-3xl font-bold ${winnerMeta.color}`}>
@@ -252,6 +253,7 @@ export function PlanQuiz({ open, onClose }: PlanQuizProps) {
                 </span>
                 <span className="text-white/30 text-sm">{winnerPlan.period}</span>
               </div>
+              )}
 
               {/* CTA */}
               <a

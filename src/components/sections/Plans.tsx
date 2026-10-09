@@ -153,6 +153,7 @@ export function Plans() {
                 </p>
 
                 {/* Price */}
+                {siteConfig.showPrices && (
                 <div className="mb-1">
                   <div className="flex items-baseline gap-1">
                     <span className="text-white/30 text-sm">por</span>
@@ -167,6 +168,7 @@ export function Plans() {
                     <span className="text-white/30 text-sm">{plan.period}</span>
                   </div>
                 </div>
+                )}
 
                 {/* Divider */}
                 <div className="my-5 h-px bg-white/5" />

@@ -67,7 +67,9 @@ export const siteConfig = {
   // ----------------------------------------------------------
   // PLANOS — espelhados da página oficial pacholokacademy.com.br/pacholok-team-v2
   // Features variam levemente entre planos (ver v2). Preço só mensal — sem "à vista".
+  // showPrices: false desde 09/10/2026 — lead chegava ancorado no preço antigo; preço sai na call.
   // ----------------------------------------------------------
+  showPrices: false,
   plans: [
     {
       id: "espartano",
